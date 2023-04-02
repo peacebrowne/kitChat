@@ -41,9 +41,17 @@ switch_form.addEventListener('click', ev => {
 
 const forms = element('.forms')
 
-const submit_form = ev => {
+/**
+ * if the element class name has submit button then it's a form.
+ * if form is a login form validate it else if it's a registration form validate also
+ * @param {HTML element} ele - Check for class name on element
+ * @returns {void}
+ * 
+ */
 
-    const target = ev.target;
+const submit_form = ele => {
+
+    const target = ele.target;
     let result;
 
     if(target.className.includes('submit-btn')){
@@ -52,12 +60,14 @@ const submit_form = ev => {
         const inputs = elementAll(`#${form.id} input`)
 
         if(form.id == 'login'){
-
+            
+            //login form validation
             result = form_validation(inputs)
             if(result) login(result)
 
         }else{
 
+            //registration form validation
             result = form_validation(inputs)
             if(result) register(result)
 
@@ -69,7 +79,11 @@ forms.addEventListener('click', submit_form)
 
 
 /**
- * @param form - form input elements pass for validation
+ * Validate any form that is passed. if an input element has an empty value notify the 
+ * user to insert a value and exit validation
+ * @param  {HTML element} form - form input elements pass for validation
+ * @returns {object} data - storing the value of each input element
+ * 
  */
 const form_validation = form => {
 
@@ -98,6 +112,13 @@ const form_validation = form => {
     return data;
 }
 
+/**
+ * Validating a valid email address. if email address is valid
+ * return true else return false
+ * @param mail - input elements value pass for validation
+ * @returns {boolean} - true / false
+ * 
+*/
 const valid_email = /^[a-zA-Z0-9.!#$%&'*+/=?^/_`{|}~-]+@[a-z]+(?:\.[a-zA-Z0-9]+)*$/;
 const email = mail => {
 
@@ -105,6 +126,13 @@ const email = mail => {
 
 }
 
+/**
+ * Validating a valid password. if password is valid
+ * return true else return false
+ * @param password - input elements value pass for validation
+ * @returns {boolean} - true / false
+ * 
+*/
 const valid_password = /[a-zA-Z]+[.!#$%&'*+/=?^/_`{|}~-]+[0-9]/;
 const password = password => {
 
