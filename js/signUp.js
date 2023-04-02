@@ -39,11 +39,13 @@ switch_form.addEventListener('click', ev => {
 
 })
 
-const forms = element('.form')
+const forms = element('.forms')
 
 const submit_form = ev => {
-    ev.preventDefault()
+
     const target = ev.target;
+    let result;
+
     if(target.className.includes('submit-btn')){
 
         const form = target.closest('form')
@@ -51,12 +53,12 @@ const submit_form = ev => {
 
         if(form.id == 'login'){
 
-            const result = validation(inputs)
+            result = form_validation(inputs)
             if(result) login(result)
 
         }else{
 
-            const result = validation(inputs)
+            result = form_validation(inputs)
             if(result) register(result)
 
         }
@@ -67,20 +69,28 @@ forms.addEventListener('click', submit_form)
 
 
 /**
- * @param inputs - form input elements pass for validation
+ * @param form - form input elements pass for validation
  */
-const validation = inputs => {
+const form_validation = form => {
 
     const data = {};
 
-    for(const i of inputs){
+    for(const input of form){
 
-        if(!i.value) return false
+        if(!input.value) {
+
+            input.classList.add('incomplete')
+            setTimeout(()=> remove_class(input,'incomplete'), 1000)
+            return false
+        }
         else {
-            if(i.name == 'email') {
-                if(!email(i.value)) return false;
+            if(input.name == 'email') {
+                if(!email(input.value)) return alert('invalid email address')
             }
-            data[i.name] = i.value;
+            if(input.name == 'password'){
+                if(!password(input.value)) return alert('invalid password and password should be atleat 8 digits')            
+            }
+            data[input.name] = input.value;
         }
 
     }
@@ -88,12 +98,20 @@ const validation = inputs => {
     return data;
 }
 
-// reference from : https://www.simplilearn.com/tutorials/javascript-tutorial/email-validation-in-javascript
-const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^/_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9]+)*$/;
-const email = mail =>{
-    if(mail.match(validRegex)) return true
-    return false
+const valid_email = /^[a-zA-Z0-9.!#$%&'*+/=?^/_`{|}~-]+@[a-z]+(?:\.[a-zA-Z0-9]+)*$/;
+const email = mail => {
+
+    return mail.match(valid_email) ? true : false;
+
 }
+
+const valid_password = /[a-zA-Z]+[.!#$%&'*+/=?^/_`{|}~-]+[0-9]/;
+const password = password => {
+
+    return password.length >= 8 && password.match(valid_password) ? true : false;
+
+}
+
 
 const login = data => {
     post_user(data)
