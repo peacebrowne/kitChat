@@ -1,32 +1,43 @@
 /**
- * @param clas - Class to remove from the specified html element.
+ * Removes a class from an html element
+ * @param {*} ele
+ * @param {*} clas
+ * @returns HTMLElement
  */
-const remove_class = (ele,clas) => {
-    ele.classList.remove(clas);
-    return ele;
-}
+const remove_class = (ele, clas) => {
+	ele.classList.remove(clas);
+	return ele;
+};
 
 /**
  * @param clas - Class to be added to the specified html element.
  */
-const add_class = (ele,clas) => ele.classList.add(clas);
+const add_class = (ele, clas) => ele.classList.add(clas);
 
 /**
- * @param {HTMLElement} ele - Query the DOM for specified element and return it.
+ * Query the DOM for specified element and return it.
+ * @param {HTMLElement} ele
+ * @returns {HTMLElement}
  */
-const element = ele => {
-    return document.querySelector(`${ele}`)
-}
+const element = (ele) => {
+	return document.querySelector(`${ele}`);
+};
 
 /**
- * @param {HTMLElement} ele - Query the DOM for all specified elements and return it.
+ * Return all element that has the specified classname or element name
+ * @param {*} ele
+ * @returns {HTMLCollection}
  */
-const elementAll = ele => {
-    return document.querySelectorAll(`${ele}`)
-}
+const elementAll = (ele) => {
+	return document.querySelectorAll(`${ele}`);
+};
 
-const reset = form => {
-    form.forEach(input => {
-        input.value = ''
-    });
-}
+/**
+ * Reset all input element to default value;
+ * @param {HTMLCollection} form
+ */
+const reset = (form) => {
+	form.forEach((input) => {
+		input.value = "";
+	});
+};

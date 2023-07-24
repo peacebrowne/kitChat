@@ -12,7 +12,6 @@ body {
 }
 
 main {
-	overflow-y: hidden;
 	display: flex;
 	background: whitesmoke;
 	height: 100vh;
@@ -24,49 +23,68 @@ img {
 	height: auto;
 	position: absolute;
 	bottom: 0;
-	right: -5rem;
 	filter: brightness(50%);
 }
 
 .section-title {
-	font-size: clamp(4rem, 50%, 5rem);
-	text-align: center;
+	padding: 2rem 1rem 0 1rem;
+}
+
+.card-title {
+	font-size: clamp(1.5rem, 2%, 5rem);
+	font-weight: 700;
 }
 
 section {
 	position: relative;
 }
 
-.chat-info {
-	flex: 0 1 40%;
-	position: relative;
-	background: #dde5f4;
-	padding-top: 5rem;
+.sidebar-section {
+	flex: 0 0 15rem;
+	background-color: #e6e9f9;
 }
 
-.chat-form {
-	flex: 1 1 60%;
+.friends-content {
+	overflow: scroll;
+	height: 80vh;
+}
+
+.friend {
 	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	max-width: 100%;
+	justify-content: space-between;
+	align-content: center;
+	cursor: pointer;
+	padding: 1rem;
+}
+
+.friend:hover {
+	background-color: #5e5e5e4d;
+}
+
+.new-msg {
+	font-size: small;
+	padding: 0.1rem 0.2rem;
+	background-color: #09574e;
+	color: white;
+	font-weight: 700;
+}
+
+.chat-section {
+	flex: 0 0 67.2%;
+	background-image: url("../images/chat-img3-removebg-preview.png");
+	background-repeat: no-repeat;
+	object-fit: fill;
+	background-position: center;
+}
+
+aside {
+	padding: 2rem;
+	flex: 0 0 1rem;
+	background: #3a3a3c;
 }
 
 form {
-	padding: clamp(2em, 3em, 4em);
-	display: flex;
-	flex-direction: column;
-	border-radius: 30px;
-	box-shadow: 0 0 2em #e6e9f9;
-	background-color: #e6e9f9;
-	gap: 2em;
-	margin: auto;
-}
-
-label {
-	font-weight: 600;
-	color: black;
+	padding: 1rem 0 0 0;
 }
 
 .form-title {
@@ -96,10 +114,9 @@ label {
 }
 
 .form-group-item {
-	padding: 0.6em 1em;
+	padding: 0.6em 0.8em;
 	background: white;
-	border: 1px solid #4d4d4d;
-	border-radius: 1.5rem;
+	border-radius: 0.1em;
 	display: flex;
 	align-items: center;
 }
@@ -107,7 +124,6 @@ label {
 input {
 	outline: none;
 	border: none;
-	padding: 0 0.5em;
 }
 
 input::-moz-placeholder {
@@ -130,7 +146,7 @@ ion-icon {
 button {
 	cursor: pointer;
 	padding: 1em;
-	background: #3a3a3c;
+	background: #7d3018;
 	color: white;
 	border: none;
 	border-radius: 2rem;
