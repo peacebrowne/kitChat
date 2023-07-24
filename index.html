@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <main>
+      <!-- CHAT INFO SECTION -->
+      <section class="chat-info">
+        <h2 class="section-title">Chatted</h2>
+        <img src="../images/chat-img4-removebg-preview.png" alt="" srcset="" />
+      </section>
+
+      <!-- CHAT FORM SECTION -->
+      <section class="chat-form">
+        <!-- SIGN IN FORM -->
+        <form class="sign-in-form">
+          <div class="form-group form-title">
+            <h3>Sign In</h3>
+            <ion-icon name="log-in-outline"></ion-icon>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <div class="form-group-item">
+              <ion-icon name="mail-outline"></ion-icon>
+              <input
+                class="email"
+                type="email"
+                name="email"
+                placeholder="Username@gmail.com"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="form-group-item">
+              <ion-icon name="lock-closed-outline"></ion-icon>
+              <input
+                class="password"
+                type="password"
+                name="password"
+                placeholder="············"
+              />
+              <ion-icon class="show-hide" name="eye-outline"></ion-icon>
+            </div>
+          </div>
+          <button class="submit-btn">Submit</button>
+          <footer>
+            <span class="sign-up">Sign Up</span>
+            <span class="reset-password">Forgot Password?</span>
+          </footer>
+        </form>
+
+        <!-- SIGN UP FORM -->
+        <form class="sign-up-form hide">
+          <div class="form-group form-title">
+            <h3>SIGN UP</h3>
+            <ion-icon name="log-in-outline"></ion-icon>
+          </div>
+
+          <div class="form-group">
+            <label for="fullname">Fullname</label>
+            <div class="form-group-item">
+              <ion-icon name="user-outline"></ion-icon>
+              <input
+                class="fullname"
+                type="text"
+                name="fullname"
+                placeholder="John Doe"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <div class="form-group-item">
+              <ion-icon name="mail-outline"></ion-icon>
+              <input
+                class="email"
+                type="email"
+                name="email"
+                placeholder="Username@gmail.com"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="form-group-item">
+              <ion-icon name="lock-closed-outline"></ion-icon>
+              <input
+                class="password"
+                type="password"
+                name="password"
+                placeholder="············"
+              />
+              <ion-icon class="show-hide" name="eye-outline"></ion-icon>
+            </div>
+          </div>
+
+          <button class="submit-btn">Submit</button>
+          <footer>
+            <span class="sign-in">Sign In</span>
+            <span class="reset-password">Forgot Password?</span>
+          </footer>
+        </form>
+
+        <!-- RESET PASSWORD FORM -->
+        <form class="reset-password-form hide">
+          <div class="form-group form-title">
+            <h3>RESET PASSWORD</h3>
+            <ion-icon name="log-in-outline"></ion-icon>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <div class="form-group-item">
+              <ion-icon name="mail-outline"></ion-icon>
+              <input
+                class="email"
+                type="email"
+                name="email"
+                placeholder="Username@gmail.com"
+              />
+            </div>
+          </div>
+
+          <button class="submit-btn">Submit</button>
+          <footer><span class="sign-in">Sign In</span><span></span></footer>
+        </form>
+        <p class="inspired">INSPIRED BY KIT</p>
+      </section>
+    </main>
+    <!-- partial -->
+
+    <script src="./js/validation.js"></script>
+    <script src="./js/custom.js"></script>
+    <script src="./js/forms.js"></script>
+  </body>
+</html>
