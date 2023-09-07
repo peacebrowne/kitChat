@@ -5,8 +5,8 @@
  * @returns HTMLElement
  */
 const remove_class = (ele, clas) => {
-	ele.classList.remove(clas);
-	return ele;
+  ele.classList.remove(clas);
+  return ele;
 };
 
 /**
@@ -20,7 +20,7 @@ const add_class = (ele, clas) => ele.classList.add(clas);
  * @returns {HTMLElement}
  */
 const element = (ele) => {
-	return document.querySelector(`${ele}`);
+  return document.querySelector(`${ele}`);
 };
 
 /**
@@ -29,7 +29,7 @@ const element = (ele) => {
  * @returns {HTMLCollection}
  */
 const elementAll = (ele) => {
-	return document.querySelectorAll(`${ele}`);
+  return document.querySelectorAll(`${ele}`);
 };
 
 /**
@@ -37,7 +37,7 @@ const elementAll = (ele) => {
  * @param {HTMLCollection} form
  */
 const reset = (form) => {
-	form.forEach((input) => {
-		input.value = "";
-	});
+  form.forEach((input) => {
+    input.value = "";
+  });
 };

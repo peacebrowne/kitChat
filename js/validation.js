@@ -7,33 +7,37 @@
  */
 
 const submit_form = (targetEl) => {
-	let result;
-	const form = targetEl.closest("form");
-	const inputs = elementAll(`.${form.className} input`);
-	const form_class = Array.from(form.classList);
+  let result;
+  const form = targetEl.closest("form");
+  const inputs = elementAll(`.${form.className} input`);
+  const form_class = Array.from(form.classList);
 
-	//Sign in form validation
-	if (form_class.includes("sign-in-form")) {
-		result = form_validation(inputs);
-		if (result) alert("User successfully signed in!");
-		else return;
-	}
+  //Sign in form validation
+  if (form_class.includes("sign-in-form")) {
+    result = form_validation(inputs);
+    if (result) alert("User successfully signed in!");
+    else return;
+  }
 
-	//Sign up form validation
-	if (form_class.includes("sign-up-form")) {
-		result = form_validation(inputs);
-		if (result) alert("User successfully signed up!");
-		else return;
-	}
+  //Sign up form validation
+  if (form_class.includes("sign-up-form")) {
+    result = form_validation(inputs);
+    if (result) {
+      alert("User successfully signed up!");
+      post_user(result)
+        .then((data) => console.log(`Successfully Added User ${data.name}`))
+        .catch((err) => console.log(err));
+    } else return;
+  }
 
-	//Reset password form validation
-	if (form_class.includes("reset-password-form")) {
-		result = form_validation(inputs);
-		if (result) alert("User successfully reset password!");
-		else return;
-	}
+  //Reset password form validation
+  if (form_class.includes("reset-password-form")) {
+    result = form_validation(inputs);
+    if (result) alert("User successfully reset password!");
+    else return;
+  }
 
-	reset(inputs);
+  reset(inputs);
 };
 
 /**
@@ -44,28 +48,27 @@ const submit_form = (targetEl) => {
  *
  */
 const form_validation = (form) => {
-	const data = {};
+  const data = {};
 
-	for (const input of form) {
-		if (!input.value) {
-			input.classList.add("incomplete");
-			setTimeout(() => remove_class(input, "incomplete"), 1000);
-			return false;
-		} else {
-			if (input.name == "email") {
-				if (!email(input.value)) return alert("invalid email address");
-			}
-			if (input.name == "password") {
-				if (!password(input.value))
-					return alert(
-						"Password should have atleast one uppercase, lowercase, digit and symbol"
-					);
-			}
-			data[input.name] = input.value;
-		}
-	}
-
-	return data;
+  for (const input of form) {
+    if (!input.value) {
+      input.classList.add("incomplete");
+      setTimeout(() => remove_class(input, "incomplete"), 1000);
+      return false;
+    } else {
+      if (input.name == "email") {
+        if (!email(input.value)) return alert("invalid email address");
+      }
+      if (input.name == "password") {
+        if (!password(input.value))
+          return alert(
+            "Password should have atleast one uppercase, lowercase, digit and symbol"
+          );
+      }
+      data[input.name] = input.value;
+    }
+  }
+  return data;
 };
 
 /**
@@ -76,9 +79,9 @@ const form_validation = (form) => {
  *
  */
 const valid_email =
-	/^[a-zA-Z0-9.!#$%&'*+/=?^/_`{|}~-]+@[a-z]+(?:\.[a-zA-Z0-9]+)*$/;
+  /^[a-zA-Z0-9.!#$%&'*+/=?^/_`{|}~-]+@[a-z]+(?:\.[a-zA-Z0-9]+)*$/;
 const email = (mail) => {
-	return mail.match(valid_email) ? true : false;
+  return mail.match(valid_email) ? true : false;
 };
 
 const upperCase = /[A-Z]/;
@@ -96,19 +99,19 @@ const symbolCase = /[.!#$%&'*+/=?^/_`{|}~-]/;
  */
 
 const password = (password) => {
-	let upper, lower, digit, symbol;
+  let upper, lower, digit, symbol;
 
-	if (password.length >= 4) {
-		for (const char of password) {
-			if (char.match(upperCase)) upper = true;
-			if (char.match(lowerCase)) lower = true;
-			if (char.match(digitCase)) digit = true;
-			if (char.match(symbolCase)) symbol = true;
-			if (upper && lower && digit && symbol) {
-				return true;
-			}
-		}
-	}
+  if (password.length >= 4) {
+    for (const char of password) {
+      if (char.match(upperCase)) upper = true;
+      if (char.match(lowerCase)) lower = true;
+      if (char.match(digitCase)) digit = true;
+      if (char.match(symbolCase)) symbol = true;
+      if (upper && lower && digit && symbol) {
+        return true;
+      }
+    }
+  }
 
-	return false;
+  return false;
 };
