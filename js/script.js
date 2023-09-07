@@ -1,4 +1,4 @@
-const URL = `https://glittery-foregoing-aletopelta.glitch.me/`;
+const URL = ``;
 
 // post request
 const post_user = async (data) => {
@@ -33,6 +33,6 @@ const get_user = async () => {
   return data;
 };
 
-get_user()
-  .then((data) => console.log(data))
-  .catch((err) => console.log(err.message));
+// get_user()
+//   .then((data) => console.log(data))
+//   .catch((err) => console.log(err.message));

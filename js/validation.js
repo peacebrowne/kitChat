@@ -24,9 +24,6 @@ const submit_form = (targetEl) => {
     result = form_validation(inputs);
     if (result) {
       alert("User successfully signed up!");
-      post_user(result)
-        .then((data) => console.log(`Successfully Added User ${data.name}`))
-        .catch((err) => console.log(err));
     } else return;
   }
 
