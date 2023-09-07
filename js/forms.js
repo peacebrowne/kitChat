@@ -18,6 +18,9 @@ document.addEventListener("click", (ev) => {
   if (targetElClas.includes("submit-btn")) {
     submit_form(targetEl);
   }
+  if (targetElClas.includes("show-hide")) {
+    show_hide_password(targetEl);
+  }
 });
 
 /**
@@ -33,4 +36,13 @@ function toggle_forms(ele, clas) {
 
   add_class(current_form, "hide");
   remove_class(next_form, "hide");
+}
+
+/**
+ * Display a form base on user preference. Login or Registration.
+ * @param {class} ele - Current form to display
+ */
+function show_hide_password(ele) {
+  const input = ele.closest(".form-group").querySelector("input");
+  input.type = input.type === "password" ? "text" : "password";
 }

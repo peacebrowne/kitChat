@@ -19,18 +19,14 @@ const add_class = (ele, clas) => ele.classList.add(clas);
  * @param {HTMLElement} ele
  * @returns {HTMLElement}
  */
-const element = (ele) => {
-  return document.querySelector(`${ele}`);
-};
+const element = (ele) => document.querySelector(`${ele}`);
 
 /**
  * Return all element that has the specified classname or element name
  * @param {*} ele
  * @returns {HTMLCollection}
  */
-const elementAll = (ele) => {
-  return document.querySelectorAll(`${ele}`);
-};
+const elementAll = (ele) => document.querySelectorAll(`${ele}`);
 
 /**
  * Reset all input element to default value;
