@@ -38,8 +38,7 @@ const submit_form = (targetEl) => {
 };
 
 /**
- * Validate any form that is passed. if an input element has an empty value notify the
- * user to insert a value and exit validation
+ * Validate any form that is passed. if an input element has an empty value notify the user to insert a value and exit validation
  * @param  {HTML element} form - form input elements pass for validation
  * @returns {object} data - storing the value of each input element
  *
@@ -49,8 +48,9 @@ const form_validation = (form) => {
 
   for (const input of form) {
     if (!input.value) {
-      input.classList.add("incomplete");
-      setTimeout(() => remove_class(input, "incomplete"), 1000);
+      const form_group = input.closest(".form-group-item");
+      form_group.classList.add("incomplete");
+      setTimeout(() => remove_class(form_group, "incomplete"), 1000);
       return false;
     } else {
       if (input.name == "email") {
@@ -69,8 +69,7 @@ const form_validation = (form) => {
 };
 
 /**
- * Validating a valid email address. if email address is valid
- * return true else return false
+ * Validating a valid email address. if email address is valid return true else return false
  * @param mail - input elements value pass for validation
  * @returns {boolean} - true / false
  *
@@ -87,10 +86,8 @@ const digitCase = /[0-9]/;
 const symbolCase = /[.!#$%&'*+/=?^/_`{|}~-]/;
 
 /**
- * Validating a valid password. If password is valid
- * return true else return false.
- * Password should be greater than 4 character and it should include
- * atleast one Upper case letter, Lower case letter, digit and symbol.
+ * Validating a valid password. If password is valid return true else return false.
+ * Password should be greater than 4 character and it should include atleast one Upper case letter, Lower case letter, digit and symbol.
  * @param {String} password - user password
  * @returns {Boolean} - True or False
  */

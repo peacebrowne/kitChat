@@ -113,7 +113,7 @@ input {
 
 input::-moz-placeholder {
   color: black;
-  font-size: 0.9em;
+  font-size: 1em;
 }
 
 input:-ms-input-placeholder {
@@ -124,7 +124,8 @@ input::placeholder {
   color: black;
   font-size: 0.9em;
 }
-ion-icon {
+
+svg {
   color: #4d4d4d;
 }
 
@@ -161,7 +162,7 @@ footer span:hover {
   position: absolute;
   right: 0.3rem;
   bottom: 0;
-  font-size: small;
+  font-size: xx-small;
   color: #010323;
   font-weight: 700;
 }
@@ -170,8 +171,26 @@ footer span:hover {
   display: none !important;
 }
 
-.show-hide {
+.show-password,
+.hide-password {
   cursor: pointer;
+}
+
+.incomplete {
+  animation: incomplete 0.1s ease-in-out 3;
+}
+
+@keyframes incomplete {
+  0% {
+    border: 1px solid #ff0000;
+    transform: translatex(-1rem);
+  }
+  50% {
+    transform: translatex(1rem);
+  }
+  100% {
+    transform: translatex(-1rem);
+  }
 }
 
 /* Mobile VIEW */
@@ -187,6 +206,10 @@ footer span:hover {
   form {
     padding: 2rem;
     width: 70%;
+  }
+
+  main {
+    overflow-y: hidden;
   }
 }
 

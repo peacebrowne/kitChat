@@ -18,8 +18,11 @@ document.addEventListener("click", (ev) => {
   if (targetElClas.includes("submit-btn")) {
     submit_form(targetEl);
   }
-  if (targetElClas.includes("show-hide")) {
-    show_hide_password(targetEl);
+  if (targetElClas.includes("show-password")) {
+    show_hide_password(targetEl, "hide");
+  }
+  if (targetElClas.includes("hide-password")) {
+    show_hide_password(targetEl, "show");
   }
 });
 
@@ -40,9 +43,16 @@ function toggle_forms(ele, clas) {
 
 /**
  * Display a form base on user preference. Login or Registration.
- * @param {class} ele - Current form to display
+ * @param {class} ele - Current password svg element
+ * @param {class} clas - Hidden password svg class
  */
-function show_hide_password(ele) {
+function show_hide_password(ele, clas) {
   const input = ele.closest(".form-group").querySelector("input");
   input.type = input.type === "password" ? "text" : "password";
+
+  const visible_svg = ele;
+  const hidden_svg = element(`.${clas}-password`);
+
+  add_class(visible_svg, "hide");
+  remove_class(hidden_svg, "hide");
 }
