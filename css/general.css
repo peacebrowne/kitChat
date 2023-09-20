@@ -10,3 +10,8 @@ body {
   -ms-user-select: none;
   user-select: none;
 }
+
+li {
+  list-style: none;
+  cursor: pointer;
+}

@@ -15,6 +15,11 @@ const remove_class = (ele, clas) => {
 const add_class = (ele, clas) => ele.classList.add(clas);
 
 /**
+ * @param clas - Class to be added to the specified html element.
+ */
+const toggle_class = (ele, clas) => ele.classList.toggle(clas);
+
+/**
  * Query the DOM for specified element and return it.
  * @param {HTMLElement} ele
  * @returns {HTMLElement}
