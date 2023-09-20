@@ -15,26 +15,25 @@ const submit_form = (targetEl) => {
   //Sign in form validation
   if (form_class.includes("sign-in-form")) {
     result = form_validation(inputs);
-    if (result) alert("User successfully signed in!");
+    if (result) sign_in(result);
     else return;
   }
 
   //Sign up form validation
   if (form_class.includes("sign-up-form")) {
     result = form_validation(inputs);
-    if (result) {
-      alert("User successfully signed up!");
-    } else return;
+    if (result) sign_up(result);
+    else return;
   }
 
   //Reset password form validation
   if (form_class.includes("reset-password-form")) {
     result = form_validation(inputs);
-    if (result) alert("User successfully reset password!");
+    if (result) alert("User reset password!");
     else return;
   }
 
-  reset(inputs);
+  // reset(inputs);
 };
 
 /**
@@ -54,14 +53,18 @@ const form_validation = (form) => {
       return false;
     } else {
       if (input.name == "email") {
+        // validating email
         if (!email(input.value)) return alert("invalid email address");
       }
+
       if (input.name == "password") {
+        // validating password
         if (!password(input.value))
           return alert(
             "Password should have atleast one uppercase, lowercase, digit and symbol"
           );
       }
+
       data[input.name] = input.value;
     }
   }
@@ -108,4 +111,28 @@ const password = (password) => {
   }
 
   return false;
+};
+
+const sign_in = (result) => {
+  get_user()
+    .then((data) => {
+      const user = data.find(
+        (val) => val.email === result.email && val.password === result.password
+      );
+      user
+        ? location.replace("chat.html")
+        : alert("Wrong user email or password!");
+    })
+    .catch((err) => console.log(err.message));
+};
+
+const sign_up = (result) => {
+  get_user().then((data) => {
+    const user = data.find((val) => val.email === result.email);
+    user
+      ? alert("User already exist!")
+      : post_user(result)
+          .then((data) => alert("User successfully signed in!"))
+          .catch((err) => console.log(err));
+  });
 };

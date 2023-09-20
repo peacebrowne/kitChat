@@ -5,7 +5,7 @@ document.addEventListener("click", (ev) => {
   const targetEl = ev.target;
   const targetElClas = Array.from(targetEl.classList);
 
-  // Toggling forms
+  // Toggling formsi
   if (targetElClas.includes("sign-up")) {
     toggle_forms(targetEl, "sign-up");
   }
@@ -51,7 +51,9 @@ function show_hide_password(ele, clas) {
   input.type = input.type === "password" ? "text" : "password";
 
   const visible_svg = ele;
-  const hidden_svg = element(`.${clas}-password`);
+  const hidden_svg = ele
+    .closest(".form-group")
+    .querySelector(`.${clas}-password`);
 
   add_class(visible_svg, "hide");
   remove_class(hidden_svg, "hide");

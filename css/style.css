@@ -1,16 +1,3 @@
-* {
-  font-family: "Poppins";
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
 main {
   overflow-y: hidden;
   display: flex;

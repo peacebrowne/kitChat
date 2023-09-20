@@ -1,203 +1,93 @@
-* {
-	font-family: "Poppins";
-	margin: 0;
-	padding: 0;
+/* SIDEBAR SECTION STYLE */
+.sidebar {
+  display: block;
+  position: absolute;
+  box-shadow: 0 20px 27px 0 rgba(0, 0, 0, 0.3);
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100vh;
+  max-width: 15.625rem;
+  overflow-y: auto;
+  z-index: 990;
+  transition: all 0.2s ease-in-out;
 }
 
-body {
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
+.horizontal {
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 0, 0, 0.699),
+    transparent
+  );
+  background-color: transparent;
+  border: 0;
+  opacity: 0.55;
+  height: 2px;
 }
 
-main {
-	display: flex;
-	background: whitesmoke;
-	height: 100vh;
-	height: 100svh;
+.sidebar-logo {
+  font-size: 2rem;
+  padding: 1.5rem 2rem;
 }
 
-img {
-	width: 100%;
-	height: auto;
-	position: absolute;
-	bottom: 0;
-	filter: brightness(50%);
+.brand-title {
+  font-weight: 700;
 }
 
-.section-title {
-	padding: 2rem 1rem 0 1rem;
+.icon-menu {
+  cursor: pointer;
 }
 
-.card-title {
-	font-size: clamp(1.5rem, 2%, 5rem);
-	font-weight: 700;
+.navbar-collapse {
+  display: block;
+  height: 83%;
 }
 
-section {
-	position: relative;
+.navbar-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-top: 0.5rem;
+  list-style: none;
 }
 
-.sidebar-section {
-	flex: 0 0 15rem;
-	background-color: #e6e9f9;
+.nav-item {
+  margin-top: 0.125rem;
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  background-color: #fff;
+  cursor: pointer;
 }
 
-.friends-content {
-	overflow: scroll;
-	height: 80vh;
+.nav-item.active {
+  color: white;
+  background-color: #3a3a3c;
+  font-weight: 600;
 }
 
-.friend {
-	display: flex;
-	justify-content: space-between;
-	align-content: center;
-	cursor: pointer;
-	padding: 1rem;
+.nav-item.active svg {
+  fill: white;
 }
 
-.friend:hover {
-	background-color: #5e5e5e4d;
+.nav-link {
+  display: flex;
+  align-items: center;
 }
 
-.new-msg {
-	font-size: small;
-	padding: 0.1rem 0.2rem;
-	background-color: #09574e;
-	color: white;
-	font-weight: 700;
+.nav-link svg {
+  width: 2rem;
+  margin: 0 0.5rem;
 }
 
-.chat-section {
-	flex: 0 0 67.2%;
-	background-image: url("../images/chat-img3-removebg-preview.png");
-	background-repeat: no-repeat;
-	object-fit: fill;
-	background-position: center;
+.nav-link-text {
+  font-weight: 400;
 }
 
-aside {
-	padding: 2rem;
-	flex: 0 0 1rem;
-	background: #3a3a3c;
+#logout {
+  margin-top: auto;
 }
 
-form {
-	padding: 1rem 0 0 0;
-}
-
-.form-title {
-	display: flex;
-	flex-direction: row !important;
-	align-items: center;
-	justify-content: center;
-}
-
-.form-title h3 {
-	font-size: 2rem;
-	color: black !important;
-	font-weight: 400;
-}
-
-.form-title ion-icon {
-	font-size: 2rem;
-	color: black !important;
-	margin-top: -0.3rem;
-}
-
-.form-group {
-	display: flex;
-	flex-direction: column;
-	gap: 0.5em;
-	color: #4d4d4d;
-}
-
-.form-group-item {
-	padding: 0.6em 0.8em;
-	background: white;
-	border-radius: 0.1em;
-	display: flex;
-	align-items: center;
-}
-
-input {
-	outline: none;
-	border: none;
-}
-
-input::-moz-placeholder {
-	color: black;
-	font-size: 0.9em;
-}
-
-input:-ms-input-placeholder {
-	color: black;
-	font-size: 0.9em;
-}
-input::placeholder {
-	color: black;
-	font-size: 0.9em;
-}
-ion-icon {
-	color: #4d4d4d;
-}
-
-button {
-	cursor: pointer;
-	padding: 1em;
-	background: #7d3018;
-	color: white;
-	border: none;
-	border-radius: 2rem;
-	font-weight: 600;
-}
-footer {
-	display: flex;
-	font-size: 0.7em;
-	color: #5e5e5e;
-	gap: 14em;
-}
-
-.footer-item {
-	display: flex;
-}
-
-footer span {
-	cursor: pointer;
-}
-
-footer span:hover {
-	color: #09574e;
-}
-
-.inspired {
-	position: absolute;
-	right: 0.3rem;
-	bottom: 0;
-	font-size: small;
-	color: #010323;
-	font-weight: 700;
-}
-
+/* UTIL STYLE */
 .hide {
-	display: none !important;
+  display: none;
 }
-
-@media only screen and (max-width: 768px) {
-	.chat-info {
-		display: none;
-	}
-	.chat-form {
-		flex: 1 1 80%;
-		margin: auto;
-		height: 100%;
-	}
-
-	form {
-		padding: 2rem;
-	}
-}
-
-/* @media only screen and (min-width: 768px) and (max-width: 959px) {
-} */

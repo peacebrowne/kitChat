@@ -2,199 +2,68 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chat</title>
-    <script
-      type="module"
-      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
-    ></script>
-    <script
-      nomodule
-      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
-    ></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"
-    />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap"
     />
     <link rel="stylesheet" href="./css/chat.css" />
+    <link rel="stylesheet" href="./css/general.css" />
+    <title>Document</title>
   </head>
   <body>
-    <main>
-      <!-- SIDEBAR SECTION -->
-      <aside>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="30"
-          height="30"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M8.5,18l3.5,4l3.5-4H19c1.103,0,2-0.897,2-2V4c0-1.103-0.897-2-2-2H5C3.897,2,3,2.897,3,4v12c0,1.103,0.897,2,2,2H8.5z M7,7h10v2H7V7z M7,11h7v2H7V11z"
-          ></path>
-        </svg>
-      </aside>
-
-      <!-- FRIENDS-ZONE SECTION -->
-      <section class="sidebar-section">
-        <div class="sidebar-section-content">
-          <div class="section-title">
-            <div class="card">
-              <h5 class="card-title">Chat</h5>
-              <span></span>
-            </div>
-            <form class="search-friends">
-              <div class="form-group">
-                <div class="form-group-item">
-                  <ion-icon name="search-outline"></ion-icon>
-                  <input
-                    class="search-friends"
-                    type="search"
-                    name="search"
-                    placeholder="Search..."
-                  />
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="friends-content">
-            <div class="friend">
-              <div class="name">
-                <h5>Marguerite Campbell</h5>
-              </div>
-              <span class="new-msg">3</span>
-            </div>
-            <div class="friend">
-              <div class="name">
-                <h5>Marguerite Campbell</h5>
-              </div>
-              <span class="new-msg">3</span>
-            </div>
-            <div class="friend">
-              <div class="name">
-                <h5>Marguerite Campbell</h5>
-              </div>
-              <span class="new-msg">3</span>
-            </div>
-            <div class="friend">
-              <div class="name">
-                <h5>Marguerite Campbell</h5>
-              </div>
-              <span class="new-msg">3</span>
-            </div>
-            <div class="friend">
-              <div class="name">
-                <h5>Marguerite Campbell</h5>
-              </div>
-              <span class="new-msg">3</span>
-            </div>
-            <div class="friend">
-              <div class="name">
-                <h5>Marguerite Campbell</h5>
-              </div>
-              <span class="new-msg">3</span>
-            </div>
-            <div class="friend">
-              <div class="name">
-                <h5>Marguerite Campbell</h5>
-              </div>
-              <span class="new-msg">3</span>
-            </div>
-            <div class="friend">
-              <div class="name">
-                <h5>Marguerite Campbell</h5>
-              </div>
-              <span class="new-msg">3</span>
-            </div>
-            <div class="friend">
-              <div class="name">
-                <h5>Marguerite Campbell</h5>
-              </div>
-              <span class="new-msg">3</span>
-            </div>
-            <div class="friend">
-              <div class="name">
-                <h5>Marguerite Campbell</h5>
-              </div>
-              <span class="new-msg">3</span>
-            </div>
-            <div class="friend">
-              <div class="name">
-                <h5>Marguerite Campbell</h5>
-              </div>
-              <span class="new-msg">3</span>
-            </div>
-            <div class="friend">
-              <div class="name">
-                <h5>Marguerite Campbell</h5>
-              </div>
-              <span class="new-msg">3</span>
-            </div>
-            <div class="friend">
-              <div class="name">
-                <h5>Marguerite Campbell</h5>
-              </div>
-              <span class="new-msg">3</span>
-            </div>
-
-            <div class="friend">
-              <div class="name">
-                <h5>Marguerite Campbell</h5>
-              </div>
-              <span class="new-msg">3</span>
-            </div>
-            <div class="friend">
-              <div class="name">
-                <h5>Marguerite Campbell</h5>
-              </div>
-              <span class="new-msg">3</span>
-            </div>
-            <div class="friend">
-              <div class="name">
-                <h5>Marguerite Campbell</h5>
-              </div>
-              <span class="new-msg">3</span>
-            </div>
-            <div class="friend">
-              <div class="name">
-                <h5>Marguerite Campbell</h5>
-              </div>
-              <span class="new-msg">3</span>
-            </div>
-            <div class="friend">
-              <div class="name">
-                <h5>Marguerite Campbell</h5>
-              </div>
-              <span class="new-msg">3</span>
-            </div>
-            <div class="friend">
-              <div class="name">
-                <h5>Marguerite Campbell</h5>
-              </div>
-              <span class="new-msg">3</span>
-            </div>
-            <div class="friend">
-              <div class="name">
-                <h5>Marguerite Campbell</h5>
-              </div>
-              <span class="new-msg">3</span>
-            </div>
-            <div class="friend">
-              <div class="name">
-                <h5>Marguerite Campbell</h5>
-              </div>
-              <span class="new-msg">3</span>
-            </div>
-          </div>
+    <!-- SIDEBAR SECTION -->
+    <nav class="sidebar" id="sidebar-main">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <span class="brand-title">KITCHAT</span>
         </div>
-      </section>
-
-      <!-- CHAT SECTION -->
-      <section class="chat-section"></section>
-    </main>
+        <a class="navbar-brand m-0"> </a>
+      </div>
+      <hr class="horizontal" />
+      <div class="navbar-collapse" id="sidebar-collapse-main">
+        <ul class="navbar-content">
+          <li class="nav-item active">
+            <div class="nav-link">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path
+                  d="M431 320.6c0-4.4 1.2-8.6 3.3-12.2.6-1.1 1.4-2.1 2.1-3.1 17.4-26 27.6-57.1 27.6-90.3.3-92.2-77.5-167-173.7-167-83.9 0-153.9 57.1-170.3 132.9-2.4 11.1-3.7 22.4-3.7 34.2 0 92.3 74.8 169.1 171 169.1 15.3 0 35.9-4.6 47.2-7.7 11.3-3.1 22.5-7.2 25.4-8.3 2.9-1.1 6.1-1.7 9.3-1.7 3.6 0 7 .7 10.1 2l56.7 20.1s2.4 1 3.9 1c4.4 0 8-3.5 8-8 0-1-.5-2.7-.5-2.7L431 320.6z"
+                />
+                <path
+                  d="M318.5 392.5c-3.6 1-8.2 2.1-13.2 3.2-10.5 2.2-23.9 4.5-34 4.5-96.2 0-171-76.8-171-169.1 0-6.6.7-15 1.5-21.4.6-4.3 1.3-8.6 2.3-12.8 1-4.5 2.2-9 3.5-13.4l-8 7.1C66.8 219.2 48 260 48 302.5c0 29.3 8.5 57.5 24.8 82 2.3 3.5 3.6 6.2 3.2 8-.4 1.8-11.9 62-11.9 62-.6 2.9.5 5.8 2.7 7.7 1.5 1.2 3.3 1.8 5.1 1.8 1 0 2-.2 2.9-.6l56.1-22.1c1.8-.7 3.7-1.1 5.7-1.1 0 0 2.4-.2 6.3 1.3 18.9 7.4 39.8 12 60.7 12 46.6 0 90.4-20.1 120.1-55.1 0 0 3.2-4.4 6.9-9.6-3.7 1.3-7.9 2.6-12.1 3.7z"
+                />
+              </svg>
+              <span class="nav-link-text">Chat</span>
+            </div>
+          </li>
+          <li class="nav-item">
+            <div class="nav-link">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path
+                  d="M349.1 334.7c-11.2-4-29.5-4.2-37.6-7.3-5.6-2.2-14.5-4.6-17.4-8.1-2.9-3.5-2.9-28.5-2.9-28.5s7-6.6 9.9-14c2.9-7.3 4.8-27.5 4.8-27.5s6.6 2.8 9.2-10.4c2.2-11.4 6.4-17.4 5.3-25.8-1.2-8.4-5.8-6.4-5.8-6.4s5.8-8.5 5.8-37.4c0-29.8-22.5-59.1-64.6-59.1-42 0-64.7 29.4-64.7 59.1 0 28.9 5.7 37.4 5.7 37.4s-4.7-2-5.8 6.4c-1.2 8.4 3 14.4 5.3 25.8 2.6 13.3 9.2 10.4 9.2 10.4s1.9 20.1 4.8 27.5c2.9 7.4 9.9 14 9.9 14s0 25-2.9 28.5-11.8 5.9-17.4 8c-8 3.1-26.3 3.5-37.6 7.5-11.2 4-45.8 22.2-45.8 67.2h278.3c.1-45.1-34.5-63.3-45.7-67.3z"
+                />
+                <path
+                  d="M140 286s23.9-.8 33.4-9.3c-15.5-23.5-7.1-50.9-10.3-76.5-3.2-25.5-17.7-40.8-46.7-40.8h-.4c-28 0-43.1 15.2-46.3 40.8-3.2 25.5 5.7 56-10.2 76.5C69 285.3 93 285 93 285s1 14.4-1 16.8c-2 2.4-7.9 4.7-12 5.5-8.8 1.9-18.1 4.5-25.9 7.2-7.8 2.7-22.6 17.2-22.6 37.2h80.3c2.2-8 17.3-22.3 32-29.8 9-4.6 17.9-4.3 24.7-5.2 0 0 3.8-6-8.7-8.3 0 0-17.2-4.3-19.2-6.7-1.9-2.2-.6-15.7-.6-15.7zM372 286s-23.9-.8-33.4-9.3c15.5-23.5 7.1-50.9 10.3-76.5 3.2-25.5 17.7-40.8 46.7-40.8h.4c28 0 43.1 15.2 46.3 40.8 3.2 25.5-5.7 56 10.2 76.5-9.5 8.6-33.5 8.3-33.5 8.3s-1 14.4 1 16.8c2 2.4 7.9 4.7 12 5.5 8.8 1.9 18.1 4.5 25.9 7.2 7.8 2.7 22.6 17.2 22.6 37.2h-80.3c-2.2-8-17.3-22.3-32-29.8-9-4.6-17.9-4.3-24.7-5.2 0 0-3.8-6 8.7-8.3 0 0 17.2-4.3 19.2-6.7 1.9-2.2.6-15.7.6-15.7z"
+                />
+              </svg>
+              <span class="nav-link-text">Friends</span>
+            </div>
+          </li>
+          <li class="nav-item" id="logout">
+            <div class="nav-link">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path
+                  d="M312 372c-7.7 0-14 6.3-14 14 0 9.9-8.1 18-18 18H94c-9.9 0-18-8.1-18-18V126c0-9.9 8.1-18 18-18h186c9.9 0 18 8.1 18 18 0 7.7 6.3 14 14 14s14-6.3 14-14c0-25.4-20.6-46-46-46H94c-25.4 0-46 20.6-46 46v260c0 25.4 20.6 46 46 46h186c25.4 0 46-20.6 46-46 0-7.7-6.3-14-14-14z"
+                />
+                <path
+                  d="M372.9 158.1c-2.6-2.6-6.1-4.1-9.9-4.1-3.7 0-7.3 1.4-9.9 4.1-5.5 5.5-5.5 14.3 0 19.8l65.2 64.2H162c-7.7 0-14 6.3-14 14s6.3 14 14 14h256.6L355 334.2c-5.4 5.4-5.4 14.3 0 19.8l.1.1c2.7 2.5 6.2 3.9 9.8 3.9 3.8 0 7.3-1.4 9.9-4.1l82.6-82.4c4.3-4.3 6.5-9.3 6.5-14.7 0-5.3-2.3-10.3-6.5-14.5l-84.5-84.2z"
+                />
+              </svg>
+              <span class="nav-link-text">Logout</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
   </body>
 </html>
