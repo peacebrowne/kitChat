@@ -4,27 +4,26 @@ body {
 
 /* SIDEBAR SECTION STYLE */
 .sidebar {
-  display: block;
-  box-shadow: 0 20px 27px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: var(--bs-box-shadow);
   top: 0;
   bottom: 0;
   width: 100%;
   height: 100vh;
   max-width: 18.625rem;
-  overflow-y: auto;
+  overflow-y: hidden;
   z-index: 990;
   transition: all 0.2s ease-in;
-  background: white;
+  background: var(--bs-white);
 }
 
 .horizontal {
   background-image: linear-gradient(
     90deg,
-    transparent,
+    var(--bs-transparent),
     rgba(0, 0, 0, 0.699),
-    transparent
+    var(--bs-transparent)
   );
-  background-color: transparent;
+  background-color: var(--bs-transparent);
   border: 0;
   opacity: 0.55;
   height: 2px;
@@ -58,17 +57,21 @@ body {
 .nav-item {
   margin-top: 0.125rem;
   padding: 0.5rem 0.5rem 0.5rem 1rem;
-  background-color: #fff;
+  background-color: var(--bs-white);
 }
 
 .nav-item.active {
-  color: white;
-  background-color: #3a3a3c;
+  color: var(--bs-white);
+  background-color: var(--bs-gray-dark);
   font-weight: 600;
 }
 
+.nav-item.active:hover {
+  background-color: var(--bs-gray-dark);
+}
+
 .nav-item.active svg {
-  fill: white;
+  fill: var(--bs-white);
 }
 
 .nav-link {
@@ -107,22 +110,30 @@ body {
   display: none;
 }
 
+/* MAIN SECION */
 main {
   width: 100%;
   height: 100vh;
+  /* background-color: red; */
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
 }
 
+/* NAVBAR STYLE */
 .navbar-top {
-  padding: 2rem 2rem 0.5rem 2rem;
+  padding: 2rem 2rem 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.profile {
-  background-color: #7d3219;
-  color: white;
+.profile,
+.chat-initial {
+  background-color: var(--bs-primary);
+  color: var(--bs-white);
   padding: 0.5rem 0.675rem;
   border-radius: 50%;
+  height: 1.62rem;
 }
 
 .dropdown {
@@ -133,10 +144,9 @@ main {
   width: 10rem;
   min-height: 15rem;
   padding: 1rem 0.5rem;
-  background-color: #fff;
-  border: 0 solid transparent;
-  box-shadow: 0 8px 26px -4px hsla(0, 0%, 8%, 0.15),
-    0 8px 9px -5px hsla(0, 0%, 8%, 0.06);
+  background-color: var(--bs-white);
+  border: 0 solid var(--bs-transparent);
+  box-shadow: var(--bs-box-shadow);
   position: absolute;
   opacity: 0;
   visibility: hidden;
@@ -153,6 +163,91 @@ main {
   opacity: 1 !important;
 }
 
+/* CHAT SECTION STYLE */
+.chat-section {
+  padding: 1rem 2rem;
+  flex-grow: 1;
+  overflow-y: scroll;
+}
+
+.chat-section::-webkit-scrollbar {
+  width: 0.4rem;
+}
+
+.chat-section::-webkit-scrollbar-thumb {
+  background-color: var(--bs-gray);
+  border-radius: 4px;
+}
+
+.chat-section::-webkit-scrollbar-track {
+  background-color: var(--bs-light);
+}
+
+.chat-content {
+  padding: 0.2rem;
+  cursor: pointer;
+  display: flex;
+  margin: 0.7rem 0;
+}
+
+.chat-content:hover,
+.nav-item:hover {
+  background-color: var(--bs-light);
+}
+
+.chat-info {
+  display: flex;
+}
+
+.chat-detail {
+  margin: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.chat-detail span {
+  font-size: small;
+}
+
+.chat-name {
+  font-weight: 700;
+}
+
+.chat-status {
+  position: absolute;
+  background-color: var(--bs-gray);
+  padding: 0.4rem;
+  border-radius: 50%;
+  bottom: 0;
+  left: 0;
+}
+
+.active-status {
+  background-color: var(--bs-success) !important;
+}
+
+.chat-time {
+  display: flex;
+}
+
+.chat-latest-msg span,
+.chat-time span {
+  align-self: flex-end;
+  font-size: small;
+}
+
+.chat-time {
+  margin-left: auto;
+}
+
+.chat-initial {
+  background: var(--bs-blue) !important;
+  position: relative;
+  align-self: center;
+}
+
+/* RESPONSIVE STYLE */
 @media only screen and (max-width: 900px) {
   .hambuger-menu {
     display: flex;
@@ -167,19 +262,18 @@ main {
   .navbar-top {
     padding: 0.7rem;
   }
-}
 
-@keyframes slide-left {
-  0% {
-    transform: translateX(0);
+  .chat-section {
+    padding: 1rem 0;
   }
-  100% {
-    transform: translateX(1px);
+
+  .chat-content {
+    padding: 0.3rem 1rem;
   }
 }
 
 .slide-left {
   visibility: visible !important;
+  left: 0;
   opacity: 1 !important;
-  animation: slide-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }

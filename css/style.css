@@ -1,7 +1,7 @@
 main {
   overflow-y: hidden;
   display: flex;
-  background: whitesmoke;
+  background: var(--) smoke;
   height: 100vh;
   height: 100svh;
 }
@@ -45,7 +45,7 @@ form {
   display: flex;
   flex-direction: column;
   border-radius: 30px;
-  box-shadow: 0 0 2em #e6e9f9;
+  box-shadow: var(--bs-box-shadow);
   background-color: #e6e9f9;
   gap: 2em;
   margin: auto;
@@ -53,7 +53,7 @@ form {
 
 label {
   font-weight: 600;
-  color: black;
+  color: var(--bs-black);
 }
 
 .form-title {
@@ -65,13 +65,13 @@ label {
 
 .form-title h3 {
   font-size: 2rem;
-  color: black !important;
+  color: var(--bs-black) !important;
   font-weight: 400;
 }
 
 .form-title svg {
   font-size: 1rem;
-  color: black !important;
+  color: var(--bs-black) !important;
   margin-top: -0.3rem;
 }
 
@@ -79,13 +79,13 @@ label {
   display: flex;
   flex-direction: column;
   gap: 0.5em;
-  color: #4d4d4d;
+  color: var(--bs-gray-dark);
 }
 
 .form-group-item {
   padding: 0.6em 1em;
-  background: white;
-  border: 1px solid #4d4d4d;
+  background: var(--bs-white);
+  border: 1px solid var(--bs-gray-dark);
   border-radius: 1.5rem;
   display: flex;
   align-items: center;
@@ -99,28 +99,28 @@ input {
 }
 
 input::-moz-placeholder {
-  color: black;
+  color: var(--bs-black);
   font-size: 1em;
 }
 
 input:-ms-input-placeholder {
-  color: black;
+  color: var(--bs-black);
   font-size: 0.9em;
 }
 input::placeholder {
-  color: black;
+  color: var(--bs-black);
   font-size: 0.9em;
 }
 
 svg {
-  color: #4d4d4d;
+  color: var(--bs-gray-dark);
 }
 
 button {
   cursor: pointer;
   padding: 1em;
-  background: #7d3219;
-  color: white;
+  background: var(--bs-primary);
+  color: var(--bs-white);
   border: none;
   border-radius: 2rem;
   font-weight: 600;
@@ -130,7 +130,7 @@ footer {
   font-size: 0.7em;
   justify-content: space-between;
   font-size: 0.7em;
-  color: #5e5e5e;
+  color: var(--bs-black);
 }
 
 .footer-item {
@@ -142,7 +142,7 @@ footer span {
 }
 
 footer span:hover {
-  color: #09574e;
+  color: var(--bs-dark);
 }
 
 .inspired {
@@ -150,7 +150,7 @@ footer span:hover {
   right: 0.3rem;
   bottom: 0;
   font-size: xx-small;
-  color: #010323;
+  color: var(--bs-black);
   font-weight: 700;
 }
 
@@ -169,7 +169,7 @@ footer span:hover {
 
 @keyframes incomplete {
   0% {
-    border: 1px solid #ff0000;
+    border: 1px solid var(--bs-danger);
     transform: translatex(-1rem);
   }
   50% {
