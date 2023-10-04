@@ -1,9 +1,10 @@
-const URL = `http://127.0.0.1:8080/`;
+const URL = `http://127.0.0.1:5000/`;
 
 // SIGN UP
 const post_user = async (data) => {
-  return await fetch(`${URL}`, {
+  return await fetch(`${URL}user`, {
     method: "POST",
+    mode: "cors",
     headers: {
       "Content-Type": "application/json",
     },
