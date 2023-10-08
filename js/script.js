@@ -4,7 +4,6 @@ const URL = `https://kitchat-api.glitch.me/`;
 const post_user = async (data) => {
   return await fetch(`${URL}user`, {
     method: "POST",
-    mode: "cors",
     headers: {
       "Content-Type": "application/json",
     },
