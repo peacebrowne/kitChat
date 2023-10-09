@@ -1,10 +1,10 @@
-const URL = `https://kitchat-api.glitch.me/`;
+// const URL = `https://kitchat-api.glitch.me/`;
+const URL = "http://127.0.0.1:5000/";
 
 // SIGN UP
 const post_user = async (data) => {
   return await fetch(`${URL}user`, {
     method: "POST",
-    mode: "cors",
     headers: {
       "Content-Type": "application/json",
     },
@@ -18,3 +18,10 @@ const get_user = async () => {
   const data = await response.json();
   return data;
 };
+
+// .then((data) => console.log(JSON.parse(data)))
+// .catch((err) => console.log(err));
+
+// H;*t9UPn&4D-xB!
+
+// Aa1!

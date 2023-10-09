@@ -33,3 +33,13 @@ function toggle_Sections(ele, clas) {
   add_class(current_form, "hide");
   remove_class(next_form, "hide");
 }
+
+// Validate if user has successfully logged in before accessing chat page-90
+window.onload = () => {
+  if (location.pathname === "/chat.html") {
+    const active = localStorage.getItem("active");
+    if (!active) {
+      location.replace("/");
+    }
+  }
+};

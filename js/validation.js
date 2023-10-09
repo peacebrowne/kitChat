@@ -119,9 +119,7 @@ const sign_in = (result) => {
       const user = data.find(
         (val) => val.email === result.email && val.password === result.password
       );
-      user
-        ? location.replace("chat.html")
-        : alert("Wrong user email or password!");
+      user ? redirect("chat.html") : alert("Wrong user email or password!");
     })
     .catch((err) => console.log(err.message));
 };
@@ -132,7 +130,22 @@ const sign_up = (result) => {
     user
       ? alert("User already exist!")
       : post_user(result)
-          .then((data) => alert("User successfully signed in!"))
+          .then((data) => {
+            alert("User successfully signed in!");
+            toggle_forms(element(".sign-in"), "sign-in");
+          })
           .catch((err) => console.log(err));
   });
+};
+
+const redirect = (page) => {
+  const active = localStorage.getItem("active");
+
+  // Checking if user is active
+  active
+    ? localStorage.removeItem("active")
+    : localStorage.setItem("active", "true");
+
+  // Redirecting user
+  location.replace(page);
 };

@@ -4,6 +4,8 @@ body {
 
 /* SIDEBAR SECTION STYLE */
 .sidebar {
+  display: flex;
+  flex-direction: column;
   box-shadow: var(--bs-box-shadow);
   top: 0;
   bottom: 0;
@@ -44,7 +46,8 @@ body {
 
 .navbar-collapse {
   display: block;
-  height: 83%;
+  flex-grow: 1;
+  padding-bottom: 1rem;
 }
 
 .navbar-content {
@@ -103,6 +106,10 @@ body {
 
 #logout {
   margin-top: auto;
+}
+
+#logout svg {
+  transform: scale(-1);
 }
 
 /* UTIL STYLE */
@@ -234,7 +241,7 @@ main {
 .chat-latest-msg span,
 .chat-time span {
   align-self: flex-end;
-  font-size: small;
+  font-size: x-small;
 }
 
 .chat-time {
