@@ -136,11 +136,15 @@ main {
 }
 .profile,
 .chat-initial {
-  background-color: var(--bs-primary);
+  background-color: var(--bs-gray-dark);
   color: var(--bs-white);
   padding: 0.5rem 0.675rem;
   border-radius: 50%;
   height: 1.62rem;
+}
+
+.profile {
+  font-weight: bolder;
 }
 
 .dropdown {

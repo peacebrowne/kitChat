@@ -1,3 +1,7 @@
+const { fullname } = JSON.parse(localStorage.getItem("account"));
+const user = element(".profile span");
+let FREINDS, MESSAGES;
+
 // HANDLES ALL CLICK EVENT ON THE PAGE
 document.addEventListener("click", (ev) => {
   const targetEl = ev.target;
@@ -36,6 +40,7 @@ function toggle_Sections(ele, clas) {
 
 // Validate if user has successfully logged in before accessing chat page-90
 window.onload = () => {
+  chatted();
   if (location.pathname === "/chat.html") {
     const active = localStorage.getItem("active");
     if (!active) {
@@ -43,3 +48,43 @@ window.onload = () => {
     }
   }
 };
+
+// const user_initial = element(".profile span");
+const user_initial = () => {
+  const initial = fullname.split(" ");
+  return `${initial[0][0]}${initial[initial.length - 1][0]}`;
+};
+
+user.innerText = user_initial();
+
+/**
+ * Display friends the user has chatted with.
+ */
+const chatted = async () => {
+  FREINDS = await get_user();
+  const chat_section = element(".chat-section");
+
+  FREINDS.forEach((info) => {
+    const frd = `<div class="chat-content" data-id="${info.id}">
+          <div class="chat-info">
+            <span class="chat-initial">
+              ${user_initial()}
+              <span class="chat-status"></span>
+            </span>
+            <div class="chat-detail">
+              <span class="chat-name">${info.fullname}</span>
+              <span class="chat-latest-msg"
+                >The quick brown fox jump over .....</span
+              >
+            </div>
+          </div>
+          <div class="chat-time">
+            <span>12:21 pm</span>
+          </div>
+        </div>`;
+    chat_section.insertAdjacentHTML("beforeend", frd);
+  });
+  console.log(FREINDS);
+};
+
+const display_friends = () => {};

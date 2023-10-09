@@ -19,9 +19,6 @@ const get_user = async () => {
   return data;
 };
 
-// .then((data) => console.log(JSON.parse(data)))
-// .catch((err) => console.log(err));
-
 // H;*t9UPn&4D-xB!
 
 // Aa1!
