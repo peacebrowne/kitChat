@@ -72,5 +72,5 @@ function redirect(page, user) {
   }
 
   // Checking if user is active
-  location.replace(page);
+  location.replace(`/kitChat${page}`);
 }

@@ -118,7 +118,7 @@ function sign_in(result) {
         (val) => val.email === result.email && val.password === result.password
       );
       user
-        ? redirect("chat.html", user)
+        ? redirect("/chat.html", user)
         : alert("Wrong user email or password!");
     })
     .catch((err) => console.log(err.message));

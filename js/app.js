@@ -121,4 +121,4 @@ function user_initial(name) {
 user.innerText = user_initial(profile.fullname);
 
 // Logging user out
-const log_out = (clas) => redirect("index.html");
+const log_out = (clas) => redirect("/");
