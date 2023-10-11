@@ -28,7 +28,7 @@ document.addEventListener("click", (ev) => {
     ? toggle_class(element(".sidebar"), "slide-left")
     : remove_class(element(".sidebar"), "slide-left");
 
-  // SWITCHING SECTIONS
+  // TOGGLING SECTIONS
   // targetElClas.includes("nav-item")
   //   ? console.log(targetEl, "included")
   //   : console.log(targetEl, "not included");
@@ -53,9 +53,39 @@ function toggle_Sections(ele, clas) {
 }
 
 /**
- * Display friends the user has chat_section with.
+ * Display friends the user has previously chattd with.
  */
 async function chat_section() {
+  FREINDS = await get_user();
+  const chat_section = element(".chat-section");
+
+  FREINDS.forEach((info) => {
+    const frd = `<div class="chat-content" data-id="${info.id}">
+          <div class="chat-info">
+            <span class="chat-initial" style="background-color: rgb(${frd_bg_color()}) ">
+              ${user_initial(info.fullname)}
+              <span class="chat-status"></span>
+            </span>
+            <div class="chat-detail">
+              <span class="chat-name">${info.fullname}</span>
+              <span class="chat-latest-msg"
+                >The quick brown fox jump over .....</span
+              >
+            </div>
+          </div>
+          <div class="chat-time">
+            <span>12:21 pm</span>
+          </div>
+        </div>`;
+    if (profile.email != info.email)
+      chat_section.insertAdjacentHTML("beforeend", frd);
+  });
+}
+
+/**
+ * Display all user's friends.
+ */
+async function friends_section() {
   FREINDS = await get_user();
   const chat_section = element(".chat-section");
 
