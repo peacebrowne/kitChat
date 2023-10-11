@@ -63,17 +63,17 @@ body {
   background-color: var(--bs-white);
 }
 
-.nav-item.active {
+.nav-item.active-section {
   color: var(--bs-white);
   background-color: var(--bs-gray-dark);
   font-weight: 600;
 }
 
-.nav-item.active:hover {
+.nav-item.active-section:hover {
   background-color: var(--bs-gray-dark);
 }
 
-.nav-item.active svg {
+.nav-item.active-section svg {
   fill: var(--bs-white);
 }
 
@@ -149,7 +149,7 @@ body {
 
 /* UTIL STYLE */
 .hide {
-  display: none;
+  display: none !important;
 }
 
 /* MAIN SECION */
@@ -217,22 +217,22 @@ main {
 }
 
 /* CHAT SECTION STYLE */
-.chat-section {
+.section {
   padding: 1rem 2rem;
   flex-grow: 1;
   overflow-y: scroll;
 }
 
-.chat-section::-webkit-scrollbar {
+.section::-webkit-scrollbar {
   width: 0.4rem;
 }
 
-.chat-section::-webkit-scrollbar-thumb {
+.section::-webkit-scrollbar-thumb {
   background-color: var(--bs-gray);
   border-radius: 4px;
 }
 
-.chat-section::-webkit-scrollbar-track {
+.section::-webkit-scrollbar-track {
   background-color: var(--bs-light);
 }
 
@@ -320,7 +320,7 @@ main {
     padding: 0.7rem;
   }
 
-  .chat-section {
+  .section {
     padding: 1rem 0;
   }
 

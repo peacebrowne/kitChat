@@ -1,10 +1,12 @@
 const profile = JSON.parse(localStorage.getItem("account"));
 const user = element(".profile span");
 let FREINDS, MESSAGES;
+const section = element(".section");
+const search = element("#search");
 
 // Validate if user has successfully logged in before accessing chat page-90
 window.addEventListener("load", () => {
-  chatSection();
+  SECTIONS["chat"]();
   if (location.pathname === "/chat.html") {
     const active = localStorage.getItem("active");
     if (!active) {
@@ -29,87 +31,31 @@ document.addEventListener("click", (ev) => {
     : removeClass(element(".sidebar"), "slide-left");
 
   // TOGGLING SECTIONS
-  // targetElClas.includes("nav-item")
-  //   ? console.log(targetEl, "included")
-  //   : console.log(targetEl, "not included");
+  if (targetElClas.includes("nav-item")) {
+    toggleSections(targetEl);
+  } else if (targetEl.closest(".nav-item")) {
+    toggleSections(targetEl.closest(".nav-item"));
+  }
 
   // LOGGING USER OUT
   if (targetElClas.includes("logout")) logOut(targetElClas);
 });
 
 /**
- * Display a form base on user preference. Login or Registration.
+ * Switching Section.
  * @param {class} ele - Current form to display
-//  */
-// function toggleSections(ele, clas) {
-//   const currentSection = ele.closest("form");
-//   const nextSection = element(`.${clas}-form`);
-
-//   const inputs = elementAll(`.${currentSection.className} input`);
-//   // resetForm(inputs);
-
-//   addClass(currentSection, "hide");
-//   removeClass(nextSection, "hide");
-// }
-
-/**
- * Display friends the user has previously chattd with.
  */
-async function chatSection() {
-  FREINDS = await getUser();
-  const section = element(".chat-section");
+function toggleSections(ele, clas) {
+  const currentSection = element(".active-section");
+  const nextSection = ele;
 
-  FREINDS.forEach((info) => {
-    const frd = `<div class="chat-content" data-id="${info.id}">
-          <div class="chat-info">
-            <span class="chat-initial" style="background-color: rgb(${frdBgColor()}) ">
-              ${userInitial(info.fullname)}
-              <span class="chat-status"></span>
-            </span>
-            <div class="chat-detail">
-              <span class="chat-name">${info.fullname}</span>
-              <span class="chat-latest-msg"
-                >The quick brown fox jump over .....</span
-              >
-            </div>
-          </div>
-          <div class="chat-time">
-            <span>12:21 pm</span>
-          </div>
-        </div>`;
-    if (profile.email != info.email)
-      section.insertAdjacentHTML("beforeend", frd);
-  });
-}
+  toggleClass(currentSection, "active-section");
+  toggleClass(nextSection, "active-section");
 
-/**
- * Display all user's friends.
- */
-async function friendsSection() {
-  FREINDS = await getUser();
-  const section = element(".chat-section");
-
-  FREINDS.forEach((info) => {
-    const frd = `<div class="chat-content" data-id="${info.id}">
-          <div class="chat-info">
-            <span class="chat-initial" style="background-color: rgb(${frdBgColor()}) ">
-              ${userInitial(info.fullname)}
-              <span class="chat-status"></span>
-            </span>
-            <div class="chat-detail">
-              <span class="chat-name">${info.fullname}</span>
-              <span class="chat-latest-msg"
-                >The quick brown fox jump over .....</span
-              >
-            </div>
-          </div>
-          <div class="chat-time">
-            <span>12:21 pm</span>
-          </div>
-        </div>`;
-    if (profile.email != info.email)
-      section.insertAdjacentHTML("beforeend", frd);
-  });
+  const sectionTitle = element(".section-title h2");
+  sectionTitle.innerText = nextSection.innerText;
+  section.innerHTML = "";
+  SECTIONS[nextSection.innerText.toLowerCase()]();
 }
 
 function userInitial(name) {
@@ -121,3 +67,78 @@ user.innerText = userInitial(profile.fullname);
 
 // Logging user out
 const logOut = (clas) => redirect("/");
+
+/**
+ * Display sections.
+ */
+
+const SECTIONS = {
+  chat: async () => {
+    FREINDS = await getUser();
+    FREINDS.forEach((info) => {
+      const frd = `<div class="chat-content" data-id="${info.id}">
+          <div class="chat-info">
+            <span class="chat-initial" style="background-color: rgb(${frdBgColor()}) ">
+              ${userInitial(info.fullname)}
+              <span class="chat-status"></span>
+            </span>
+            <div class="chat-detail">
+              <span class="chat-name">${info.fullname}</span>
+              <span class="chat-latest-msg"
+                >The quick brown fox jump over .....</span
+              >
+            </div>
+          </div>
+          <div class="chat-time">
+            <span>12:21 pm</span>
+          </div>
+        </div>`;
+      if (profile.email != info.email)
+        section.insertAdjacentHTML("beforeend", frd);
+    });
+  },
+  friends: async () => {
+    FREINDS = await getUser();
+    FREINDS.reverse().forEach((info) => {
+      const frd = `<div class="chat-content" data-id="${info.id}">
+          <div class="chat-info">
+            <span class="chat-initial" style="background-color: rgb(${frdBgColor()}) ">
+              ${userInitial(info.fullname)}
+              <span class="chat-status"></span>
+            </span>
+            <div class="chat-detail">
+              <span class="chat-name">${info.fullname}</span>
+              <span class="chat-latest-msg"
+                >The quick brown fox jump over .....</span
+              >
+            </div>
+          </div>
+          <div class="chat-time">
+            <span>12:21 pm</span>
+          </div>
+        </div>`;
+      if (profile.email != info.email)
+        section.insertAdjacentHTML("beforeend", frd);
+    });
+  },
+};
+
+/**
+ * Searches for a friend in the chat and friends section.
+ * if friends is available display it else hide it
+ * @param {*} ev - Keyboard keys
+ * @returns {void}
+ */
+function searchFriends(ev) {
+  const char = ev.target.value.toLocaleLowerCase();
+
+  Array.from(section.children).forEach((ele) => {
+    const term = ele.querySelector(".chat-name").innerText.toLocaleLowerCase();
+    if (term.includes(char)) {
+      removeClass(ele, "hide");
+    } else {
+      addClass(ele, "hide");
+    }
+  });
+}
+search.addEventListener("keyup", searchFriends);

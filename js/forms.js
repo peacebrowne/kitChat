@@ -90,7 +90,7 @@ const forms = {
             </svg>
           </div>
 
-          <span class="message hide"></span>
+          <div class="message hide"></div>
 
           <div class="form-group">
             <label for="email">Email Address</label>
@@ -289,7 +289,7 @@ const forms = {
             </svg>
           </div>
 
-          <span class="message hide"></span>
+          <div class="message hide"></div>
 
           <div class="form-group">
             <label for="fullname">Full Name</label>
@@ -530,7 +530,7 @@ const forms = {
             </svg>
           </div>
 
-          <span class="message hide"></span>
+          <div class="message hide"></div>
 
           <div class="form-group">
             <label for="email">Email Address</label>
@@ -594,7 +594,6 @@ toggleForms(element(".inspired"), "sign-in-form");
 
 function warning(msg, clas) {
   const message = element(".message");
-  message.innerHTML = msg;
+  message.innerHTML = `<span class="${clas}">${msg}</span>`;
   removeClass(message, "hide");
-  message.className = clas;
 }

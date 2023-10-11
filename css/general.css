@@ -34,10 +34,15 @@
     0 8px 9px -5px hsla(0, 0%, 8%, 0.06);
 }
 
+.message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .success {
   color: var(--bs-success);
   font-size: x-small;
-  text-align: center;
 }
 
 .warning {
@@ -47,7 +52,6 @@
 .danger {
   color: var(--bs-danger);
   font-size: x-small;
-  text-align: center;
 }
 
 .info {
