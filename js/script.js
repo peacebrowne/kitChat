@@ -1,5 +1,5 @@
-const URL = `https://kitchat-api.glitch.me/`;
-// const URL = "http://127.0.0.1:5000/";
+// const URL = `https://kitchat-api.glitch.me/`;
+const URL = "http://127.0.0.1:5000/";
 
 // SIGN UP
 const post_user = async (data) => {

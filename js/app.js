@@ -113,12 +113,12 @@ async function friends_section() {
 }
 
 // const user_initial = element(".profile span");
-async function user_initial(name) {
+function user_initial(name) {
   const initial = name.split(" ");
   return `${initial[0][0]}${initial[initial.length - 1][0]}`;
 }
 
-user.innerText = await user_initial(profile.fullname);
+user.innerText = user_initial(profile.fullname);
 
 // Logging user out
 const log_out = (clas) => redirect("/");

@@ -259,12 +259,13 @@ main {
   justify-content: center;
 }
 
-.chat-detail span {
+.chat-name {
   font-size: small;
+  font-weight: 700;
 }
 
-.chat-name {
-  font-weight: 700;
+.chat-latest-msg {
+  font-size: x-small;
 }
 
 .chat-status {
