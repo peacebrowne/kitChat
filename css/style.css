@@ -116,10 +116,14 @@ svg {
   color: var(--bs-gray-dark);
 }
 
+form {
+  width: 20rem;
+}
+
 button {
   cursor: pointer;
   padding: 1em;
-  background: var(--bs-primary);
+  background: var(--bs-gray-dark);
   color: var(--bs-white);
   border: none;
   border-radius: 2rem;

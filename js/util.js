@@ -4,20 +4,21 @@
  * @param {*} clas
  * @returns HTMLElement
  */
-function remove_class(ele, clas) {
+const removeClass = (ele, clas) => {
   ele.classList.remove(clas);
   return ele;
-}
+};
 
 /**
  * @param clas - Class to be added to the specified html element.
  */
-const add_class = (ele, clas) => ele.classList.add(clas);
+const addClass = (ele, clas) => ele.classList.add(clas);
 
 /**
+ * @param ele - HTML element
  * @param clas - Class to be added to the specified html element.
  */
-const toggle_class = (ele, clas) => ele.classList.toggle(clas);
+const toggleClass = (ele, clas) => ele.classList.toggle(clas);
 
 /**
  * Query the DOM for specified element and return it.
@@ -37,7 +38,7 @@ const elementAll = (ele) => document.querySelectorAll(`${ele}`);
  * Reset all input element to default value;
  * @param {HTMLCollection} form
  */
-function reset(form) {
+function resetForm(form) {
   form.forEach((input) => {
     input.value = "";
   });
@@ -46,7 +47,7 @@ function reset(form) {
 /**
  * Generating random colors for user's friends
  */
-function frd_bg_color() {
+function frdBgColor() {
   let color = "";
   for (let i = 0; i < 3; i++) {
     color += Math.floor(Math.random() * 250);
@@ -57,6 +58,9 @@ function frd_bg_color() {
   return color;
 }
 
+/**
+ * Redirecting user's to different pages.
+ */
 function redirect(page, user) {
   const active = localStorage.getItem("active");
 
@@ -72,5 +76,5 @@ function redirect(page, user) {
   }
 
   // Checking if user is active
-  location.replace(`/kitChat${page}`);
+  location.replace(page);
 }

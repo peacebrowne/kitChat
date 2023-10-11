@@ -6,34 +6,34 @@
  *
  */
 
-function submit_form(targetEl) {
+function submitForm(targetEl) {
   let result;
   const form = targetEl.closest("form");
   const inputs = elementAll(`.${form.className} input`);
-  const form_class = Array.from(form.classList);
+  const formClass = Array.from(form.classList);
 
   //Sign in form validation
-  if (form_class.includes("sign-in-form")) {
-    result = form_validation(inputs);
-    if (result) sign_in(result);
+  if (formClass.includes("sign-in-form")) {
+    result = formValidation(inputs);
+    if (result) signIn(result);
     else return;
   }
 
   //Sign up form validation
-  if (form_class.includes("sign-up-form")) {
-    result = form_validation(inputs);
-    if (result) sign_up(result);
+  if (formClass.includes("sign-up-form")) {
+    result = formValidation(inputs, "sign-up-form");
+    if (result) signUp(result);
     else return;
   }
 
   //Reset password form validation
-  if (form_class.includes("reset-password-form")) {
-    result = form_validation(inputs);
+  if (formClass.includes("reset-password-form")) {
+    result = formValidation(inputs);
     if (result) alert("User reset password!");
     else return;
   }
 
-  // reset(inputs);
+  // resetForm(inputs);
 }
 
 /**
@@ -42,31 +42,33 @@ function submit_form(targetEl) {
  * @returns {object} data - storing the value of each input element
  *
  */
-function form_validation(form) {
+function formValidation(form, type) {
   const data = {};
 
   for (const input of form) {
     if (!input.value) {
-      const form_group = input.closest(".form-group-item");
-      form_group.classList.add("incomplete");
-      setTimeout(() => remove_class(form_group, "incomplete"), 1000);
-      return false;
-    } else {
-      if (input.name == "email") {
+      const formGroup = input.closest(".form-group-item");
+      formGroup.classList.add("incomplete");
+      setTimeout(() => removeClass(formGroup, "incomplete"), 1000);
+      return;
+    } else if (type === "sign-up-form") {
+      if (input.name === "email") {
         // validating email
-        if (!email(input.value)) return alert("invalid email address");
+        if (!email(input.value)) {
+          warning("invalid email address!", "danger");
+          return;
+        }
       }
 
-      if (input.name == "password") {
+      if (input.name === "password") {
         // validating password
-        if (!password(input.value))
-          return alert(
-            "Password should have atleast one uppercase, lowercase, digit and symbol"
-          );
+        if (!password(input.value)) {
+          warning("invalid password!", "danger");
+          return;
+        }
       }
-
-      data[input.name] = input.value;
     }
+    data[input.name] = input.value;
   }
   return data;
 }
@@ -77,9 +79,9 @@ function form_validation(form) {
  * @returns {boolean} - true / false
  *
  */
-const valid_email =
+const validEmail =
   /^[a-zA-Z0-9.!#$%&'*+/=?^/_`{|}~-]+@[a-z]+(?:\.[a-zA-Z0-9]+)*$/;
-const email = (mail) => (mail.match(valid_email) ? true : false);
+const email = (mail) => (mail.match(validEmail) ? true : false);
 
 const upperCase = /[A-Z]/;
 const lowerCase = /[a-z]/;
@@ -111,28 +113,30 @@ function password(password) {
   return false;
 }
 
-function sign_in(result) {
-  get_user()
+function signIn(result) {
+  getUser()
     .then((data) => {
       const user = data.find(
         (val) => val.email === result.email && val.password === result.password
       );
       user
-        ? redirect("/chat.html", user)
-        : alert("Wrong user email or password!");
+        ? redirect("chat.html", user)
+        : warning("Wrong email or password!", "danger");
     })
     .catch((err) => console.log(err.message));
 }
 
-function sign_up(result) {
-  get_user().then((data) => {
+function signUp(result) {
+  getUser().then((data) => {
     const user = data.find((val) => val.email === result.email);
     user
-      ? alert("User already exist!")
-      : post_user(result)
+      ? warning("User already exist!", "danger")
+      : postUser(result)
           .then((data) => {
-            alert("User successfully signed in!");
-            toggle_forms(element(".sign-in"), "sign-in");
+            warning("Successfully Registered!", "success");
+            setTimeout(() => {
+              toggleForms(element(".inspired"), "sign-in-form");
+            }, 2000);
           })
           .catch((err) => console.log(err));
   });

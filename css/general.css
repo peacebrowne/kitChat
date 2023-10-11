@@ -34,6 +34,27 @@
     0 8px 9px -5px hsla(0, 0%, 8%, 0.06);
 }
 
+.success {
+  color: var(--bs-success);
+  font-size: x-small;
+  text-align: center;
+}
+
+.warning {
+  color: var(--bs-warning);
+}
+
+.danger {
+  color: var(--bs-danger);
+  font-size: x-small;
+  text-align: center;
+}
+
+.info {
+  color: var(--bs-dark);
+  font-size: xx-small;
+}
+
 body {
   -webkit-user-select: none;
   -moz-user-select: none;

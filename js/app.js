@@ -4,7 +4,7 @@ let FREINDS, MESSAGES;
 
 // Validate if user has successfully logged in before accessing chat page-90
 window.addEventListener("load", () => {
-  chat_section();
+  chatSection();
   if (location.pathname === "/chat.html") {
     const active = localStorage.getItem("active");
     if (!active) {
@@ -20,13 +20,13 @@ document.addEventListener("click", (ev) => {
 
   // TOGGLE USER PROFILE
   targetElClas.includes("profile-item")
-    ? toggle_class(element(".dropdown-menu"), "show")
-    : remove_class(element(".dropdown-menu"), "show");
+    ? toggleClass(element(".dropdown-menu"), "show")
+    : removeClass(element(".dropdown-menu"), "show");
 
   // TOGGLE SIDEBAR NAV
   targetElClas.includes("hambuger")
-    ? toggle_class(element(".sidebar"), "slide-left")
-    : remove_class(element(".sidebar"), "slide-left");
+    ? toggleClass(element(".sidebar"), "slide-left")
+    : removeClass(element(".sidebar"), "slide-left");
 
   // TOGGLING SECTIONS
   // targetElClas.includes("nav-item")
@@ -34,36 +34,36 @@ document.addEventListener("click", (ev) => {
   //   : console.log(targetEl, "not included");
 
   // LOGGING USER OUT
-  if (targetElClas.includes("logout")) log_out(targetElClas);
+  if (targetElClas.includes("logout")) logOut(targetElClas);
 });
 
 /**
  * Display a form base on user preference. Login or Registration.
  * @param {class} ele - Current form to display
- */
-function toggle_Sections(ele, clas) {
-  const current_form = ele.closest("form");
-  const next_form = element(`.${clas}-form`);
+//  */
+// function toggleSections(ele, clas) {
+//   const currentSection = ele.closest("form");
+//   const nextSection = element(`.${clas}-form`);
 
-  const inputs = elementAll(`.${current_form.className} input`);
-  reset(inputs);
+//   const inputs = elementAll(`.${currentSection.className} input`);
+//   // resetForm(inputs);
 
-  add_class(current_form, "hide");
-  remove_class(next_form, "hide");
-}
+//   addClass(currentSection, "hide");
+//   removeClass(nextSection, "hide");
+// }
 
 /**
  * Display friends the user has previously chattd with.
  */
-async function chat_section() {
-  FREINDS = await get_user();
-  const chat_section = element(".chat-section");
+async function chatSection() {
+  FREINDS = await getUser();
+  const section = element(".chat-section");
 
   FREINDS.forEach((info) => {
     const frd = `<div class="chat-content" data-id="${info.id}">
           <div class="chat-info">
-            <span class="chat-initial" style="background-color: rgb(${frd_bg_color()}) ">
-              ${user_initial(info.fullname)}
+            <span class="chat-initial" style="background-color: rgb(${frdBgColor()}) ">
+              ${userInitial(info.fullname)}
               <span class="chat-status"></span>
             </span>
             <div class="chat-detail">
@@ -78,22 +78,22 @@ async function chat_section() {
           </div>
         </div>`;
     if (profile.email != info.email)
-      chat_section.insertAdjacentHTML("beforeend", frd);
+      section.insertAdjacentHTML("beforeend", frd);
   });
 }
 
 /**
  * Display all user's friends.
  */
-async function friends_section() {
-  FREINDS = await get_user();
-  const chat_section = element(".chat-section");
+async function friendsSection() {
+  FREINDS = await getUser();
+  const section = element(".chat-section");
 
   FREINDS.forEach((info) => {
     const frd = `<div class="chat-content" data-id="${info.id}">
           <div class="chat-info">
-            <span class="chat-initial" style="background-color: rgb(${frd_bg_color()}) ">
-              ${user_initial(info.fullname)}
+            <span class="chat-initial" style="background-color: rgb(${frdBgColor()}) ">
+              ${userInitial(info.fullname)}
               <span class="chat-status"></span>
             </span>
             <div class="chat-detail">
@@ -108,17 +108,16 @@ async function friends_section() {
           </div>
         </div>`;
     if (profile.email != info.email)
-      chat_section.insertAdjacentHTML("beforeend", frd);
+      section.insertAdjacentHTML("beforeend", frd);
   });
 }
 
-// const user_initial = element(".profile span");
-function user_initial(name) {
+function userInitial(name) {
   const initial = name.split(" ");
   return `${initial[0][0]}${initial[initial.length - 1][0]}`;
 }
 
-user.innerText = user_initial(profile.fullname);
+user.innerText = userInitial(profile.fullname);
 
 // Logging user out
-const log_out = (clas) => redirect("/");
+const logOut = (clas) => redirect("/");
