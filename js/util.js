@@ -4,10 +4,10 @@
  * @param {*} clas
  * @returns HTMLElement
  */
-const remove_class = (ele, clas) => {
+function remove_class(ele, clas) {
   ele.classList.remove(clas);
   return ele;
-};
+}
 
 /**
  * @param clas - Class to be added to the specified html element.
@@ -37,8 +37,40 @@ const elementAll = (ele) => document.querySelectorAll(`${ele}`);
  * Reset all input element to default value;
  * @param {HTMLCollection} form
  */
-const reset = (form) => {
+function reset(form) {
   form.forEach((input) => {
     input.value = "";
   });
-};
+}
+
+/**
+ * Generating random colors for user's friends
+ */
+function frd_bg_color() {
+  let color = "";
+  for (let i = 0; i < 3; i++) {
+    color += Math.floor(Math.random() * 250);
+    if (i === 2) break;
+    color += ",";
+  }
+
+  return color;
+}
+
+function redirect(page, user) {
+  const active = localStorage.getItem("active");
+
+  // Removing user password before storing user info in localstorage
+  if (user) delete user.password;
+
+  if (active) {
+    localStorage.removeItem("active");
+    localStorage.removeItem("account");
+  } else {
+    localStorage.setItem("active", "true");
+    localStorage.setItem("account", JSON.stringify(user));
+  }
+
+  // Checking if user is active
+  location.replace(page);
+}

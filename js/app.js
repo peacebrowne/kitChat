@@ -1,6 +1,17 @@
-const { fullname } = JSON.parse(localStorage.getItem("account"));
+const profile = JSON.parse(localStorage.getItem("account"));
 const user = element(".profile span");
 let FREINDS, MESSAGES;
+
+// Validate if user has successfully logged in before accessing chat page-90
+window.addEventListener("load", () => {
+  chat_section();
+  if (location.pathname === "/chat.html") {
+    const active = localStorage.getItem("active");
+    if (!active) {
+      location.replace("/");
+    }
+  }
+});
 
 // HANDLES ALL CLICK EVENT ON THE PAGE
 document.addEventListener("click", (ev) => {
@@ -18,9 +29,12 @@ document.addEventListener("click", (ev) => {
     : remove_class(element(".sidebar"), "slide-left");
 
   // SWITCHING SECTIONS
-  targetElClas.includes("nav-item")
-    ? console.log(targetEl, "included")
-    : console.log(targetEl, "not included");
+  // targetElClas.includes("nav-item")
+  //   ? console.log(targetEl, "included")
+  //   : console.log(targetEl, "not included");
+
+  // LOGGING USER OUT
+  if (targetElClas.includes("logout")) log_out(targetElClas);
 });
 
 /**
@@ -38,37 +52,18 @@ function toggle_Sections(ele, clas) {
   remove_class(next_form, "hide");
 }
 
-// Validate if user has successfully logged in before accessing chat page-90
-window.onload = () => {
-  chatted();
-  if (location.pathname === "/chat.html") {
-    const active = localStorage.getItem("active");
-    if (!active) {
-      location.replace("/");
-    }
-  }
-};
-
-// const user_initial = element(".profile span");
-const user_initial = () => {
-  const initial = fullname.split(" ");
-  return `${initial[0][0]}${initial[initial.length - 1][0]}`;
-};
-
-user.innerText = user_initial();
-
 /**
- * Display friends the user has chatted with.
+ * Display friends the user has chat_section with.
  */
-const chatted = async () => {
+async function chat_section() {
   FREINDS = await get_user();
   const chat_section = element(".chat-section");
 
   FREINDS.forEach((info) => {
     const frd = `<div class="chat-content" data-id="${info.id}">
           <div class="chat-info">
-            <span class="chat-initial">
-              ${user_initial()}
+            <span class="chat-initial" style="background-color: rgb(${frd_bg_color()}) ">
+              ${user_initial(info.fullname)}
               <span class="chat-status"></span>
             </span>
             <div class="chat-detail">
@@ -82,9 +77,18 @@ const chatted = async () => {
             <span>12:21 pm</span>
           </div>
         </div>`;
-    chat_section.insertAdjacentHTML("beforeend", frd);
+    if (profile.email != info.email)
+      chat_section.insertAdjacentHTML("beforeend", frd);
   });
-  console.log(FREINDS);
-};
+}
 
-const display_friends = () => {};
+// const user_initial = element(".profile span");
+function user_initial(name) {
+  const initial = name.split(" ");
+  return `${initial[0][0]}${initial[initial.length - 1][0]}`;
+}
+
+user.innerText = user_initial(profile.fullname);
+
+// Logging user out
+const log_out = (clas) => redirect("/");

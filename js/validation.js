@@ -6,7 +6,7 @@
  *
  */
 
-const submit_form = (targetEl) => {
+function submit_form(targetEl) {
   let result;
   const form = targetEl.closest("form");
   const inputs = elementAll(`.${form.className} input`);
@@ -34,7 +34,7 @@ const submit_form = (targetEl) => {
   }
 
   // reset(inputs);
-};
+}
 
 /**
  * Validate any form that is passed. if an input element has an empty value notify the user to insert a value and exit validation
@@ -42,7 +42,7 @@ const submit_form = (targetEl) => {
  * @returns {object} data - storing the value of each input element
  *
  */
-const form_validation = (form) => {
+function form_validation(form) {
   const data = {};
 
   for (const input of form) {
@@ -69,7 +69,7 @@ const form_validation = (form) => {
     }
   }
   return data;
-};
+}
 
 /**
  * Validating a valid email address. if email address is valid return true else return false
@@ -79,9 +79,7 @@ const form_validation = (form) => {
  */
 const valid_email =
   /^[a-zA-Z0-9.!#$%&'*+/=?^/_`{|}~-]+@[a-z]+(?:\.[a-zA-Z0-9]+)*$/;
-const email = (mail) => {
-  return mail.match(valid_email) ? true : false;
-};
+const email = (mail) => (mail.match(valid_email) ? true : false);
 
 const upperCase = /[A-Z]/;
 const lowerCase = /[a-z]/;
@@ -95,7 +93,7 @@ const symbolCase = /[.!#$%&'*+/=?^/_`{|}~-]/;
  * @returns {Boolean} - True or False
  */
 
-const password = (password) => {
+function password(password) {
   let upper, lower, digit, symbol;
 
   if (password.length >= 4) {
@@ -111,9 +109,9 @@ const password = (password) => {
   }
 
   return false;
-};
+}
 
-const sign_in = (result) => {
+function sign_in(result) {
   get_user()
     .then((data) => {
       const user = data.find(
@@ -124,9 +122,9 @@ const sign_in = (result) => {
         : alert("Wrong user email or password!");
     })
     .catch((err) => console.log(err.message));
-};
+}
 
-const sign_up = (result) => {
+function sign_up(result) {
   get_user().then((data) => {
     const user = data.find((val) => val.email === result.email);
     user
@@ -138,19 +136,4 @@ const sign_up = (result) => {
           })
           .catch((err) => console.log(err));
   });
-};
-
-const redirect = (page, user) => {
-  const active = localStorage.getItem("active");
-
-  if (active) {
-    localStorage.removeItem("active");
-    localStorage.removeItem("account");
-  } else {
-    localStorage.setItem("active", "true");
-    localStorage.setItem("account", JSON.stringify(user));
-  }
-
-  // Checking if user is active
-  location.replace(page);
-};
+}
