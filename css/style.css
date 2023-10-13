@@ -1,7 +1,7 @@
 main {
   overflow-y: hidden;
   display: flex;
-  background: var(--) smoke;
+  background: whitesmoke;
   height: 100vh;
   height: 100svh;
 }
@@ -25,9 +25,9 @@ section {
 }
 
 .chat-info {
-  flex: 0 1 40%;
+  flex: 0 1 50%;
   position: relative;
-  background: #dde5f4;
+  background: #c1ccdf;
   padding-top: 5rem;
 }
 
@@ -46,7 +46,7 @@ form {
   flex-direction: column;
   border-radius: 30px;
   box-shadow: var(--bs-box-shadow);
-  background-color: #e6e9f9;
+  background-color: #c1ccdf;
   gap: 2em;
   margin: auto;
 }
@@ -125,6 +125,7 @@ button {
   padding: 1em;
   background: var(--bs-gray-dark);
   color: var(--bs-white);
+  box-shadow: var(--bs-box-shadow);
   border: none;
   border-radius: 2rem;
   font-weight: 600;

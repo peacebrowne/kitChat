@@ -61,18 +61,15 @@ function frdBgColor() {
 /**
  * Redirecting user's to different pages.
  */
-function redirect(page, user) {
+function redirect(page, email) {
   const active = localStorage.getItem("active");
-
-  // Removing user password before storing user info in localstorage
-  if (user) delete user.password;
 
   if (active) {
     localStorage.removeItem("active");
     localStorage.removeItem("account");
   } else {
     localStorage.setItem("active", "true");
-    localStorage.setItem("account", JSON.stringify(user));
+    localStorage.setItem("account", JSON.stringify(email));
   }
 
   // Checking if user is active

@@ -31,7 +31,7 @@
   --bs-transparent: transparent;
   --bs-primary: #7d3219;
   --bs-box-shadow: 0 8px 26px -4px hsla(0, 0%, 8%, 0.15),
-    0 8px 9px -5px hsla(0, 0%, 8%, 0.06);
+    0 8px 9px -5px hsla(0, 0%, 8%, 0.267);
 }
 
 .message {

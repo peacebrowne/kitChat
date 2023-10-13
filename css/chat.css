@@ -141,6 +141,8 @@ body {
 
 #logout {
   margin-top: auto;
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  background-color: var(--bs-white);
 }
 
 #logout svg {

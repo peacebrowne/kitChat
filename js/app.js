@@ -1,17 +1,20 @@
-const profile = JSON.parse(localStorage.getItem("account"));
+const userEmail = JSON.parse(localStorage.getItem("account"));
 const user = element(".profile span");
 let FREINDS, MESSAGES;
 const section = element(".section");
 const search = element("#search");
 
 // Validate if user has successfully logged in before accessing chat page-90
-window.addEventListener("load", () => {
-  SECTIONS["chat"]();
+window.addEventListener("load", async () => {
   if (location.pathname === "/chat.html") {
     const active = localStorage.getItem("active");
     if (!active) {
       location.replace("/");
     }
+    FREINDS = await getUser();
+    const fullname = FREINDS.find((frd) => frd.email === userEmail);
+    user.innerText = userInitial(fullname.fullname);
+    SECTIONS["chat"]();
   }
 });
 
@@ -63,10 +66,8 @@ function userInitial(name) {
   return `${initial[0][0]}${initial[initial.length - 1][0]}`;
 }
 
-user.innerText = userInitial(profile.fullname);
-
 // Logging user out
-const logOut = (clas) => redirect("/");
+const logOut = () => redirect("/");
 
 /**
  * Display sections.
@@ -75,39 +76,24 @@ const logOut = (clas) => redirect("/");
 const SECTIONS = {
   chat: async () => {
     FREINDS = await getUser();
-    FREINDS.forEach((info) => {
-      const frd = `<div class="chat-content" data-id="${info.id}">
-          <div class="chat-info">
-            <span class="chat-initial" style="background-color: rgb(${frdBgColor()}) ">
-              ${userInitial(info.fullname)}
-              <span class="chat-status"></span>
-            </span>
-            <div class="chat-detail">
-              <span class="chat-name">${info.fullname}</span>
-              <span class="chat-latest-msg"
-                >The quick brown fox jump over .....</span
-              >
-            </div>
-          </div>
-          <div class="chat-time">
-            <span>12:21 pm</span>
-          </div>
-        </div>`;
-      if (profile.email != info.email)
-        section.insertAdjacentHTML("beforeend", frd);
-    });
+    displayUsers(FREINDS);
   },
   friends: async () => {
     FREINDS = await getUser();
-    FREINDS.reverse().forEach((info) => {
-      const frd = `<div class="chat-content" data-id="${info.id}">
+    displayUsers(FREINDS.reverse());
+  },
+};
+
+function displayUsers(friends) {
+  friends.forEach((friend) => {
+    const frd = `<div class="chat-content" data-id="${friend.id}">
           <div class="chat-info">
             <span class="chat-initial" style="background-color: rgb(${frdBgColor()}) ">
-              ${userInitial(info.fullname)}
+              ${userInitial(friend.fullname)}
               <span class="chat-status"></span>
             </span>
             <div class="chat-detail">
-              <span class="chat-name">${info.fullname}</span>
+              <span class="chat-name">${friend.fullname}</span>
               <span class="chat-latest-msg"
                 >The quick brown fox jump over .....</span
               >
@@ -117,11 +103,9 @@ const SECTIONS = {
             <span>12:21 pm</span>
           </div>
         </div>`;
-      if (profile.email != info.email)
-        section.insertAdjacentHTML("beforeend", frd);
-    });
-  },
-};
+    if (userEmail != friend.email) section.insertAdjacentHTML("beforeend", frd);
+  });
+}
 
 /**
  * Searches for a friend in the chat and friends section.

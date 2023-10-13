@@ -114,30 +114,26 @@ function password(password) {
 }
 
 function signIn(result) {
-  getUser()
+  postUser(result, "signIn")
+    .then((data) => data.json())
     .then((data) => {
-      const user = data.find(
-        (val) => val.email === result.email && val.password === result.password
-      );
-      user
-        ? redirect("chat.html", user)
+      data === "true"
+        ? redirect("chat.html", result.email)
         : warning("Wrong email or password!", "danger");
     })
-    .catch((err) => console.log(err.message));
+    .catch((err) => console.log(err));
 }
 
 function signUp(result) {
-  getUser().then((data) => {
-    const user = data.find((val) => val.email === result.email);
-    user
-      ? warning("User already exist!", "danger")
-      : postUser(result)
-          .then((data) => {
-            warning("Successfully Registered!", "success");
-            setTimeout(() => {
-              toggleForms(element(".inspired"), "sign-in-form");
-            }, 2000);
-          })
-          .catch((err) => console.log(err));
-  });
+  postUser(result, "user")
+    .then((data) => data.json())
+    .then((data) => {
+      if (data.status === "false") {
+        warning(`${data.msg}`, "danger");
+        return;
+      }
+      warning(`${data.msg}`, "success");
+      setTimeout(() => toggleForms(element(".inspired"), "sign-in-form"), 1000);
+    })
+    .catch((err) => console.log(err));
 }
