@@ -19,6 +19,17 @@ const getUser = async () => {
   return data;
 };
 
+// get request
+const getSingleUser = async (id) => {
+  const response = await fetch(`${URL}user?id=${id}`);
+  const data = await response.json();
+  return data;
+};
+
+// getSingleUser("d13f0f1c-e80a-47b1-b689-a92e8780e0b1")
+//   .then((data) => console.log(data))
+//   .catch((err) => console.error(err));
+
 // H;*t9UPn&4D-xB!
 
 // Aa1!
