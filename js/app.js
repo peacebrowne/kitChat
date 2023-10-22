@@ -3,6 +3,7 @@ const user = element(".profile span");
 let FREINDS, MESSAGES, USERINFO;
 const search = element("#search");
 const userSection = element(".user-section");
+let id;
 
 // Validate if user has successfully logged in before accessing chat page-90
 window.addEventListener("load", async () => {
@@ -49,18 +50,24 @@ document.addEventListener("click", (ev) => {
   }
 
   // OPEN CHAT
-  if (targetElClas.includes("chat-content")) openChat(targetEl);
+  if (targetElClas.includes("chat-content")) SECTIONS["openChat"](targetEl);
   else if (targetEl.closest(".chat-content"))
-    openChat(targetEl.closest(".chat-content"));
+    SECTIONS["openChat"](targetEl.closest(".chat-content"));
+
+  // COMPOSE MESSAGES
+  if (targetElClas.includes("send-msg")) composeMessage();
+
+  // BACK ARROW
+  if (targetElClas.includes("back-arrow")) backArrow(targetEl);
 });
 
 /**
  * Switching Tabs.
- * @param {class} ele - Current form to display
+ * @param { HTMLElement } tab - Current tab to display
  */
-function toggleTabs(ele) {
+function toggleTabs(tab) {
   const currentTab = element(".active-tab");
-  const nextTab = ele;
+  const nextTab = tab;
 
   toggleClass(currentTab, "active-tab");
   toggleClass(nextTab, "active-tab");
@@ -68,51 +75,47 @@ function toggleTabs(ele) {
   SECTIONS[nextTab.innerText.toLowerCase()]();
 }
 
-function toggleSection(section) {
-  const currentSection = element(".current-section");
-  const nextSection = section;
-
-  addClass(nextSection, "current-section");
-  removeClass(nextSection, "hide");
-  addClass(currentSection, "hide");
-  removeClass(currentSection, "current-section");
-
-  console.log("Current Section", currentSection);
-  console.log("Next Section", nextSection);
-}
-
+/**
+ * Extracting the first letter of the user first and last name and returning user initial.
+ * @param { String } name - User fullname
+ * @returns { String }  - User initial
+ */
 function userInitial(name) {
   const initial = name.split(" ");
   return `${initial[0][0]}${initial[initial.length - 1][0]}`;
 }
 
-// Logging user out
-const logOut = () => redirect("/");
-
-/**
- * Display sections.
- */
-
+// OPEN SECTIONS
 const SECTIONS = {
   chat: async () => {
     FREINDS = await getUser();
-    displaySections(FREINDS, "chats");
+    openSections(FREINDS, "chats");
   },
   friends: async () => {
     FREINDS = await getUser();
-    displaySections(FREINDS.reverse(), "friends");
+    openSections(FREINDS.reverse(), "friends");
   },
-  messages: async (frd, msg) => {
-    displayChats(frd, msg);
+  previousMessages: async (frd, msg) => {
+    previousMessages(frd, msg);
+  },
+  openChat: async (ele) => {
+    openChat(ele);
   },
 };
 
-function displayUsers(friends) {
+/**
+ * Display friends in user chat or friend section.
+ * @param { Object } friends - User friend object
+ * @returns {void}
+ */
+function displayFriends(friends) {
   const section = element(".tab-section");
   friends.forEach((friend) => {
     const frd = `<div class="chat-content" data-id="${friend.id}">
           <div class="chat-info">
-            <span class="chat-initial" style="background-color: rgb(${frdBgColor()}) ">
+            <span class="chat-initial" style="background-color: ${
+              friend.color
+            }">
               ${userInitial(friend.fullname)}
               <span class="chat-status"></span>
             </span>
@@ -131,7 +134,12 @@ function displayUsers(friends) {
   });
 }
 
-function displaySections(friends, title) {
+/**
+ * Open user section between chat and friends section.
+ * @param { Array } friends - All user friends
+ * @param { String } title - Title of the section.
+ */
+function openSections(friends, title) {
   const userSection = element(".user-section");
   const section = `<nav class="navbar-top" id="navbarTop">
           <div class="hambuger-menu hambuger">
@@ -158,7 +166,7 @@ function displaySections(friends, title) {
                 id="search"
                 class="search"
               />
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="search">
                 <path
                   d="M443.5 420.2L336.7 312.4c20.9-26.2 33.5-59.4 33.5-95.5 0-84.5-68.5-153-153.1-153S64 132.5 64 217s68.5 153 153.1 153c36.6 0 70.1-12.8 96.5-34.2l106.1 107.1c3.2 3.4 7.6 5.1 11.9 5.1 4.1 0 8.2-1.5 11.3-4.5 6.6-6.3 6.8-16.7.6-23.3zm-226.4-83.1c-32.1 0-62.3-12.5-85-35.2-22.7-22.7-35.2-52.9-35.2-84.9 0-32.1 12.5-62.3 35.2-84.9 22.7-22.7 52.9-35.2 85-35.2s62.3 12.5 85 35.2c22.7 22.7 35.2 52.9 35.2 84.9 0 32.1-12.5 62.3-35.2 84.9-22.7 22.7-52.9 35.2-85 35.2z"
                 />
@@ -169,6 +177,7 @@ function displaySections(friends, title) {
           <ul class="navbar-top-user">
             <li
               class="profile profile-item dropdown pe-2 d-flex align-items-center"
+              style="background-color: ${USERINFO.color}"
             >
               <span class="profile-item">${userInitial(
                 USERINFO.fullname
@@ -185,10 +194,19 @@ function displaySections(friends, title) {
         <div class="tab-section"></div>`;
 
   userSection.innerHTML = section;
-  displayUsers(friends);
+  displayFriends(friends);
 }
 
-function displayChats(friend, messages) {
+/**
+ * Open chat section between user and friend.
+ * @param { Object }  frd - Current friend object
+ * @returns {void}
+ */
+async function openChat(frd) {
+  id = frd.dataset.id;
+
+  const friend = await getSingleUser(id);
+
   const section = ` <header>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -201,7 +219,9 @@ function displayChats(friend, messages) {
           </svg>
           <div class="section-title">
             <div class="chat-info">
-              <span class="chat-initial" style="background-color: green">
+              <span class="chat-initial" style="background-color: ${
+                friend.color
+              }">
                 ${userInitial(friend.fullname)}
                 <span class="chat-status"></span>
               </span>
@@ -253,39 +273,21 @@ function displayChats(friend, messages) {
         <hr class="horizontal" />
         <div class="conversation">
           <ul class="messages">
-            <li class="received-msg">
-              <span>The quick brown fox jump over the lazy dog.</span>
-            </li>
-            <li class="sent-msg">
-              <span>The quick brown fox jump over the lazy dog.</span>
-            </li>
-            <li class="received-msg">
-              <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim animi
-              voluptate assumenda dolore officiis aliquam eum, obcaecati autem cupiditate
-              quisquam necessitatibus eveniet facilis, earum reprehenderit neque debitis
-              hic laudantium tenetur!</span>
-            </li>
-              <li class="sent-msg">
-              <span>The quick brown fox jump over the lazy dog.</span>
-            </li>
-              <li class="received-msg">
-              <span>The quick brown fox jump over the lazy dog.</span>
-            </li>
-            <li class="sent-msg">
-              <span>The quick brown fox jump over the lazy dog.</span>
-            </li>
-              <li class="received-msg">
-              <span>The quick brown fox jump over the lazy dog.</span>
-            </li>
-            <li class="sent-msg">
-              <span>The quick brown fox jump over the lazy dog.</span>
-            </li>
+           
           </ul>
+        </div>
         </div>
 
         <!-- COMPOSED MESSAGE -->
-        <div class="compose">
-          <input type="text" placeholder="Message..." class="compose-msg" />
+        <form class="compose">
+          <div class="form-group">
+              <input
+                class="compose-msg"
+                type="text"
+                name="msg"
+                placeholder="Enter your message..."
+              />
+          </div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
@@ -295,21 +297,45 @@ function displayChats(friend, messages) {
               d="M435.9 64.9l-367.1 160c-6.5 3.1-6.3 12.4.3 15.3l99.3 56.1c5.9 3.3 13.2 2.6 18.3-1.8l195.8-168.8c1.3-1.1 4.4-3.2 5.6-2 1.3 1.3-.7 4.3-1.8 5.6L216.9 320.1c-4.7 5.3-5.4 13.1-1.6 19.1l64.9 104.1c3.2 6.3 12.3 6.2 15.2-.2L447.2 76c3.3-7.2-4.2-14.5-11.3-11.1z"
             />
           </svg>
-        </div>`;
+        </form>`;
   userSection.innerHTML = section;
+  // SECTIONS["previousMessages"](friend, "message");
 }
 
-async function openChat(ele) {
-  const id = ele.dataset.id;
-
-  const friend = await getSingleUser(id);
-  SECTIONS["messages"](friend, "message");
+/**
+ * Displaying previous messages between user and friend.
+ * @param { String } friend - Active friend
+ * @param { Array }  messages - Array of messages
+ * @returns {void}
+ */
+function previousMessages(friend, messages) {
+  const messagesContainer = element(".messages");
+  messages.forEach((msg) => {
+    messagesContainer.insertAdjacentHTML(
+      "beforeend",
+      msg.to === friend.id
+        ? `<div class="msg sent-msg">
+         <div class="msg-bubble">
+           <div class="msg-text">
+             ${msg.value}
+           </div>
+           </div>
+       </div>`
+        : `<div class="msg received-msg">
+         <div class="msg-bubble">
+           <div class="msg-text">
+             ${msg.value}
+           </div>
+           </div>
+       </div>`
+    );
+  });
 }
 
 /**
  * Searches for a friend in the chat and friends section.
  * if friends is available display it else hide it
- * @param {*} ev - Keyboard keys
+ * @param {KeyboardEvent} ev - Keyboard keys
  * @returns {void}
  */
 function searchFriends(ev) {
@@ -325,3 +351,31 @@ function searchFriends(ev) {
     }
   });
 }
+
+/**
+ * Composing user message and display it.
+ * @returns {void}
+ */
+function composeMessage() {
+  const msg = element(".compose-msg");
+  const messagesContainer = element(".messages");
+  const ele = `
+    <div class="msg sent-msg">
+      <div class="msg-bubble">
+        <div class="msg-text">
+          ${msg.value}
+        </div>
+        </div>
+    </div>`;
+  if (msg.value !== "") {
+    messagesContainer.insertAdjacentHTML("beforeend", ele);
+    sentMessage(msg.value, USERINFO.id, id);
+  } else return;
+  resetForm([msg]);
+}
+
+// GO BACK TO CHAT SECTION
+const backArrow = () => SECTIONS["chat"]();
+
+// LOG USER OUT
+const logOut = () => redirect("/");

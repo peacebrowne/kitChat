@@ -240,6 +240,60 @@ svg {
   flex-direction: column;
 }
 
+.msg {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
+
+.msg-bubble {
+  max-width: 540px;
+  padding: 15px;
+  border-radius: 15px;
+  background: var(--bs-gray);
+}
+
+.received-msg .msg-info {
+  justify-content: flex-start;
+}
+
+.sent-msg .msg-info {
+  justify-content: flex-end;
+}
+
+.msg-info {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.msg-info-name {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.msg-info-time {
+  font-size: 0.85em;
+}
+
+.received-msg .msg-bubble {
+  border-bottom-left-radius: 0;
+}
+
+.sent-msg {
+  flex-direction: row-reverse;
+}
+
+.sent-msg .msg-bubble {
+  background: var(--bs-secondary);
+  color: #fff;
+  border-bottom-right-radius: 0;
+}
+
+.sent-msg .msg-img {
+  margin: 0 0 0 10px;
+}
+
 .messages::-webkit-scrollbar {
   width: 0;
 }
@@ -247,30 +301,7 @@ svg {
 .messages {
   overflow-y: scroll;
   padding: 2rem;
-  word-wrap: break-word;
   flex: 1 1 0;
-}
-
-.messages li {
-  margin-bottom: 1rem;
-  padding: 0.7375rem 1rem;
-}
-
-.messages li span {
-  font-size: 0.7375rem;
-}
-
-.received-msg {
-  margin-right: auto;
-  border-radius: 3rem 3rem 3rem 0;
-  background-color: #343a4049;
-}
-
-.sent-msg {
-  color: var(--bs-white);
-  background-color: #343a40cb;
-  margin-left: auto;
-  border-radius: 3rem 3rem 0 3rem;
 }
 
 .compose {
@@ -279,15 +310,17 @@ svg {
   justify-content: space-between;
 }
 
+.form-group {
+  flex-grow: 1;
+  display: flex;
+}
+
 .compose input {
   flex-grow: 1;
-  padding: 0.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 1rem;
   outline: none;
   border: 0.4px solid var(--bs-secondary);
-  border-radius: 1.3rem;
+  border-radius: 1.6rem;
   font-weight: 500;
   transition: 0.8s;
   background: transparent;
@@ -324,7 +357,7 @@ svg {
 }
 
 .chat-content {
-  padding: 0.5rem 2rem;
+  padding: 0.5rem 3rem 0.5rem 2rem;
   cursor: pointer;
   display: flex;
   margin: 0.7rem 0;
@@ -440,16 +473,12 @@ svg {
     width: 1.5rem;
   }
   header {
-    padding: 0.3rem 0.5rem;
+    padding: 0.7rem 0.5rem;
   }
 
   .messages li {
     font-size: small;
     max-width: 80%;
-  }
-
-  .conversation {
-    padding: 1rem;
   }
 
   .tab-section {

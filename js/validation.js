@@ -74,7 +74,7 @@ function formValidation(form, type) {
 }
 
 /**
- * Validating a valid email address. if email address is valid return true else return false
+ * Validating a valid email address, if email address is valid return true else return false
  * @param mail - input elements value pass for validation
  * @returns {boolean} - true / false
  *
@@ -125,6 +125,7 @@ function signIn(result) {
 }
 
 function signUp(result) {
+  result["color"] = frdBgColor();
   postUser(result, "user")
     .then((data) => data.json())
     .then((data) => {

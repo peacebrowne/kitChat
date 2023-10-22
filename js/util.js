@@ -55,7 +55,7 @@ function frdBgColor() {
     color += ",";
   }
 
-  return color;
+  return `rgb(${color})`;
 }
 
 /**
