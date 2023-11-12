@@ -3,6 +3,7 @@ const user = element(".profile span");
 let FREINDS, MESSAGES, USERINFO;
 const search = element("#search");
 const userSection = element(".user-section");
+let frdEmail;
 let id;
 
 // Validate if user has successfully logged in before accessing chat page-90
@@ -206,6 +207,7 @@ async function openChat(frd) {
   id = frd.dataset.id;
 
   const friend = await getSingleUser(id);
+  frdEmail = friend.email;
 
   const section = ` <header>
           <svg
@@ -299,7 +301,8 @@ async function openChat(frd) {
           </svg>
         </form>`;
   userSection.innerHTML = section;
-  // SECTIONS["previousMessages"](friend, "message");
+  const messages = await getMessage(frdEmail, userEmail);
+  SECTIONS["previousMessages"](friend, messages);
 }
 
 /**
@@ -313,21 +316,23 @@ function previousMessages(friend, messages) {
   messages.forEach((msg) => {
     messagesContainer.insertAdjacentHTML(
       "beforeend",
-      msg.to === friend.id
-        ? `<div class="msg sent-msg">
-         <div class="msg-bubble">
-           <div class="msg-text">
-             ${msg.value}
-           </div>
-           </div>
-       </div>`
-        : `<div class="msg received-msg">
-         <div class="msg-bubble">
-           <div class="msg-text">
-             ${msg.value}
-           </div>
-           </div>
-       </div>`
+      msg.from != userEmail
+        ? `
+    <div class="msg received-msg">
+      <div class="msg-bubble">
+        <div class="msg-text">
+          ${msg.message}
+        </div>
+        </div>
+    </div>`
+        : `
+    <div class="msg sent-msg">
+      <div class="msg-bubble">
+        <div class="msg-text">
+          ${msg.message}
+        </div>
+        </div>
+    </div>`
     );
   });
 }
@@ -357,21 +362,48 @@ function searchFriends(ev) {
  * @returns {void}
  */
 function composeMessage() {
+  const date = new Date();
+
+  const fullDate = {
+    year: date.getFullYear(),
+    month: date.getMonth(),
+    day: date.getDay(),
+    hour: date.getHours(),
+    minute: date.getMinutes(),
+    second: date.getSeconds(),
+  };
+
   const msg = element(".compose-msg");
+  if (msg.value !== "") sentMessage(msg.value, userEmail, frdEmail, fullDate);
+  else return;
+  resetForm([msg]);
+}
+
+function instantMessage(data) {
   const messagesContainer = element(".messages");
-  const ele = `
+
+  if (messagesContainer) {
+    messagesContainer.insertAdjacentHTML(
+      "beforeend",
+      data.from != userEmail
+        ? `
+    <div class="msg received-msg">
+      <div class="msg-bubble">
+        <div class="msg-text">
+          ${data.msg}
+        </div>
+        </div>
+    </div>`
+        : `
     <div class="msg sent-msg">
       <div class="msg-bubble">
         <div class="msg-text">
-          ${msg.value}
+          ${data.msg}
         </div>
         </div>
-    </div>`;
-  if (msg.value !== "") {
-    messagesContainer.insertAdjacentHTML("beforeend", ele);
-    sentMessage(msg.value, USERINFO.id, id);
-  } else return;
-  resetForm([msg]);
+    </div>`
+    );
+  }
 }
 
 // GO BACK TO CHAT SECTION

@@ -38,6 +38,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 1rem;
+  border-radius: 0.5rem;
 }
 
 .success {
@@ -47,6 +49,10 @@
 
 .warning {
   color: var(--bs-warning);
+}
+
+.warningBg {
+  background-color: #fbd03374;
 }
 
 .danger {

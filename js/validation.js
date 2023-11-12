@@ -55,7 +55,7 @@ function formValidation(form, type) {
       if (input.name === "email") {
         // validating email
         if (!email(input.value)) {
-          warning("invalid email address!", "danger");
+          warning("invalid email address!", "danger", "#ea060629");
           return;
         }
       }
@@ -63,7 +63,7 @@ function formValidation(form, type) {
       if (input.name === "password") {
         // validating password
         if (!password(input.value)) {
-          warning("invalid password!", "danger");
+          warning("invalid password!", "danger", "#ea060629");
           return;
         }
       }
@@ -117,9 +117,12 @@ function signIn(result) {
   postUser(result, "signIn")
     .then((data) => data.json())
     .then((data) => {
-      data === "true"
-        ? redirect("chat.html", result.email)
-        : warning("Wrong email or password!", "danger");
+      if (data) {
+        warning("Login Successfully!", "success", "#83d61631");
+        setTimeout(() => redirect("chat.html", result.email), 2000);
+      } else {
+        warning("Wrong email or password!", "danger", "#ea060629");
+      }
     })
     .catch((err) => console.log(err));
 }
@@ -130,10 +133,10 @@ function signUp(result) {
     .then((data) => data.json())
     .then((data) => {
       if (data.status === "false") {
-        warning(`${data.msg}`, "danger");
+        warning(`${data.msg}`, "danger", "#ea060629");
         return;
       }
-      warning(`${data.msg}`, "success");
+      warning(`${data.msg}`, "success", "#83d61675");
       setTimeout(() => toggleForms(element(".inspired"), "sign-in-form"), 1000);
     })
     .catch((err) => console.log(err));

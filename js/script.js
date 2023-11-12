@@ -26,6 +26,12 @@ const getSingleUser = async (id) => {
   return data;
 };
 
+const getMessage = async (from, to) => {
+  const response = await fetch(`${URL}messages?from=${from}&to=${to}`);
+  const data = await response.json();
+  return data;
+};
+
 // getSingleUser("d13f0f1c-e80a-47b1-b689-a92e8780e0b1")
 //   .then((data) => console.log(data))
 //   .catch((err) => console.error(err));

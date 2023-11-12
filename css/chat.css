@@ -428,7 +428,7 @@ svg {
   .hambuger-menu,
   .search {
     display: flex;
-    /* margin: 0 0.5rem; */
+    margin: 0 0.5rem;
   }
 
   .sidebar {
@@ -446,7 +446,7 @@ svg {
   }
 
   .chat-content {
-    padding: 0.3rem 0.5rem;
+    padding: 0.5rem 1rem;
   }
 
   .search-box {
@@ -479,10 +479,6 @@ svg {
   .messages li {
     font-size: small;
     max-width: 80%;
-  }
-
-  .tab-section {
-    padding: 0.5rem;
   }
 }
 
