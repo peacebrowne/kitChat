@@ -7,13 +7,13 @@ document.addEventListener("click", (event) => {
 
   // Toggling forms
   if (targetElClas.includes("sign-up")) {
-    toggleForms(targetEl, "sign-up-form");
+    toggleForms("sign-up-form");
   }
   if (targetElClas.includes("sign-in")) {
-    toggleForms(targetEl, "sign-in-form");
+    toggleForms("sign-in-form");
   }
   if (targetElClas.includes("reset-password")) {
-    toggleForms(targetEl, "reset-password-form");
+    toggleForms("reset-password-form");
   }
   if (targetElClas.includes("submit-btn")) {
     submitForm(targetEl);
