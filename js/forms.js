@@ -593,8 +593,8 @@ function toggleForms(className) {
 toggleForms("sign-in-form");
 
 function warning(message, className, backgroundColor) {
-  const messagesContainer = getElement(".messages");
-  messagesContainer.innerHTML = `<span class="${className}">${message}</span>`;
-  messagesContainer.style.backgroundColor = backgroundColor;
-  removeClass(message, "hide");
+  const warningMessageContainer = getElement(".message");
+  warningMessageContainer.innerHTML = `<span class="${className}">${message}</span>`;
+  warningMessageContainer.style.backgroundColor = backgroundColor;
+  removeClass(warningMessageContainer, "hide");
 }

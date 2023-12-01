@@ -123,9 +123,10 @@ async function signIn(result) {
   }
 }
 
-async function signUp(result) {
-  result["color"] = frdBgColor();
-  const response = await postUser(result, "user");
+async function signUp(data) {
+  data["color"] = frdBgColor();
+  const response = await postUser(data, "user");
+  console.log(response);
   if (response.status) {
     warning(`${response.msg}`, "success", "#83d61675");
     setTimeout(
