@@ -91,7 +91,7 @@ const symbolCase = /[.!#$%&'*+/=?^/_`{|}~-]/;
 /**
  * Validating a valid password. If password is valid return true else return false.
  * Password should be greater than 4 character and it should include atleast one Upper case letter, Lower case letter, digit and symbol.
- * @param {String} password - user password
+ * @param {password} password - user password
  * @returns {Boolean} - True or False
  */
 

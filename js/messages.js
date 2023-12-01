@@ -43,25 +43,24 @@ function composeMessage() {
   resetForm([messageInput]);
 }
 
-function instantMessage(message) {
+function instantMessage(currentMessage) {
   const messagesContainer = getElement(".messages");
-
   if (messagesContainer) {
     const messageTemplate =
-      message.from !== USERID
-        ? `<div class="msg received-msg"><div class="msg-bubble"><div class="msg-text">${message.msg}</div></div></div>`
-        : `<div class="msg sent-msg"><div class="msg-bubble"><div class="msg-text">${message.msg}</div></div></div>`;
+      currentMessage.from !== USERID
+        ? `<div class="msg received-msg"><div class="msg-bubble"><div class="msg-text">${currentMessage.message}</div></div></div>`
+        : `<div class="msg sent-msg"><div class="msg-bubble"><div class="msg-text">${currentMessage.message}</div></div></div>`;
     messagesContainer.insertAdjacentHTML("beforeend", messageTemplate);
     scrollToLatestMessage();
   } else {
     const friendZone = getElement(".tab-section");
-    const friend = FRIENDS.find((friend) => friend.id === message.from);
+    const friend = FRIENDS.find((friend) => friend.id === currentMessage.from);
     const friendElement = Array.from(friendZone.children).find(
       (element) => element.dataset.id === friend.id
     );
     const latestMessageElement =
       friendElement.querySelector(".chat-latest-msg");
-    latestMessageElement.innerText = message.msg;
+    latestMessageElement.innerText = currentMessage.message;
     friendZone.insertBefore(friendElement, friendZone.firstChild);
   }
 }
@@ -71,28 +70,37 @@ function scrollToLatestMessage() {
 }
 
 const activeUser = (data) => {
-  const friendZone = getElement(".tab-section");
-  const friendsList = [];
-  const activeUserList = [];
-  const filteredData = data.filter((value) => value.user !== USERID);
-  filteredData.forEach((value) => {
-    FRIENDS.forEach((friend) => {
-      if (friend.id === value.user) {
-        friendsList.push(friend.id);
+  setTimeout(() => {
+    const friendZone = getElement(".current-section");
+    const friendsList = [];
+    const activeUserList = [];
+    const filteredData = data.filter((user) => user.id !== USERID);
+    filteredData.forEach((user) => {
+      FRIENDS.forEach((friend) => {
+        if (friend.id === user.id) {
+          friendsList.push(friend.id);
+        }
+      });
+    });
+
+    friendsList.forEach((userId) => {
+      const userElement = friendZone.querySelector(`[data-id="${userId}"]`);
+      if (userElement) {
+        const chatStatusElement = userElement.querySelector(".chat-status");
+        if (chatStatusElement) {
+          chatStatusElement.style.backgroundColor = "#82d616";
+          activeUserList.push(chatStatusElement);
+        }
+      } else {
+        const chatStatusElement =
+          getElement("header").querySelector(".chat-status");
+        if (chatStatusElement) {
+          chatStatusElement.style.backgroundColor = "#82d616";
+          activeUserList.push(chatStatusElement);
+        }
       }
     });
-  });
-
-  friendsList.forEach((userId) => {
-    const userElement = friendZone.querySelector(`[data-id="${userId}"]`);
-    if (userElement) {
-      const chatStatusElement = userElement.querySelector(".chat-status");
-      if (chatStatusElement) {
-        chatStatusElement.style.backgroundColor = "#82d616";
-        activeUserList.push(chatStatusElement);
-      }
-    }
-  });
+  }, 100);
 };
 
 const disconnectedUser = (data) => {

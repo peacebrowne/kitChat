@@ -123,12 +123,14 @@ body {
 
 .nav-link-text {
   font-weight: 400;
+  margin-left: 0.7rem;
 }
 
 #logout {
   margin-top: auto;
-  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  padding: 0.5rem;
   background-color: var(--bs-white);
+  color: var(--bs-black);
 }
 
 #logout svg {
