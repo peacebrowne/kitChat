@@ -1,8 +1,8 @@
-const form = element("form");
+const form = getElement("form");
 
-document.addEventListener("click", (ev) => {
-  ev.preventDefault();
-  const targetEl = ev.target;
+document.addEventListener("click", (event) => {
+  event.preventDefault();
+  const targetEl = event.target;
   const targetElClas = Array.from(targetEl.classList);
 
   // Toggling forms
@@ -31,14 +31,14 @@ document.addEventListener("click", (ev) => {
  * @param {class} ele - Current password svg element
  * @param {class} clas - Hidden password svg class
  */
-function showHiddenPassword(ele, clas) {
-  const input = ele.closest(".form-group").querySelector("input");
-  input.type = input.type === "password" ? "text" : "password";
+function showHiddenPassword(element, className) {
+  const inputElement = element.closest(".form-group").querySelector("input");
+  inputElement.type = inputElement.type === "password" ? "text" : "password";
 
-  const visibleSvg = ele;
-  const hiddenSvg = ele
+  const visibleSvg = element;
+  const hiddenSvg = element
     .closest(".form-group")
-    .querySelector(`.${clas}-password`);
+    .querySelector(`.${className}-password`);
 
   addClass(visibleSvg, "hide");
   removeClass(hiddenSvg, "hide");
@@ -585,16 +585,16 @@ const forms = {
  * Display a form base on user preference. Login or Registration.
  * @param {class} ele - Current form to display
  */
-function toggleForms(ele, clas) {
-  const form = element(`form`);
-  form.classList = clas;
-  form.innerHTML = forms[clas];
+function toggleForms(className) {
+  const form = getElement(`form`);
+  form.classList = className;
+  form.innerHTML = forms[className];
 }
-toggleForms(element(".inspired"), "sign-in-form");
+toggleForms("sign-in-form");
 
-function warning(msg, clas, bgColor) {
-  const message = element(".message");
-  message.innerHTML = `<span class="${clas}">${msg}</span>`;
-  message.style.backgroundColor = bgColor;
+function warning(message, className, backgroundColor) {
+  const messagesContainer = getElement(".messages");
+  messagesContainer.innerHTML = `<span class="${className}">${message}</span>`;
+  messagesContainer.style.backgroundColor = backgroundColor;
   removeClass(message, "hide");
 }

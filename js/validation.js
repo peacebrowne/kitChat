@@ -6,29 +6,29 @@
  *
  */
 
-function submitForm(targetEl) {
+function submitForm(element) {
   let result;
-  const form = targetEl.closest("form");
-  const inputs = elementAll(`.${form.className} input`);
-  const formClass = Array.from(form.classList);
+  const form = element.closest("form");
+  const inputElements = getElementAll(`.${form.className} input`);
+  const formClassList = Array.from(form.classList);
 
   //Sign in form validation
-  if (formClass.includes("sign-in-form")) {
-    result = formValidation(inputs);
+  if (formClassList.includes("sign-in-form")) {
+    result = formValidation(inputElements);
     if (result) signIn(result);
     else return;
   }
 
   //Sign up form validation
-  if (formClass.includes("sign-up-form")) {
-    result = formValidation(inputs, "sign-up-form");
+  if (formClassList.includes("sign-up-form")) {
+    result = formValidation(inputElements, "sign-up-form");
     if (result) signUp(result);
     else return;
   }
 
   //Reset password form validation
-  if (formClass.includes("reset-password-form")) {
-    result = formValidation(inputs);
+  if (formClassList.includes("reset-password-form")) {
+    result = formValidation(inputElements);
     if (result) alert("User reset password!");
     else return;
   }
@@ -45,30 +45,30 @@ function submitForm(targetEl) {
 function formValidation(form, type) {
   const data = {};
 
-  for (const input of form) {
-    if (!input.value) {
-      const formGroup = input.closest(".form-group-item");
+  for (const inputElement of form) {
+    if (!inputElement.value) {
+      const formGroup = inputElement.closest(".form-group-item");
       formGroup.classList.add("incomplete");
       setTimeout(() => removeClass(formGroup, "incomplete"), 1000);
       return;
     } else if (type === "sign-up-form") {
-      if (input.name === "email") {
+      if (inputElement.name === "email") {
         // validating email
-        if (!email(input.value)) {
+        if (!email(inputElement.value)) {
           warning("invalid email address!", "danger", "#ea060629");
           return;
         }
       }
 
-      if (input.name === "password") {
+      if (inputElement.name === "password") {
         // validating password
-        if (!password(input.value)) {
+        if (!password(inputElement.value)) {
           warning("invalid password!", "danger", "#ea060629");
           return;
         }
       }
     }
-    data[input.name] = input.value;
+    data[inputElement.name] = inputElement.value;
   }
   return data;
 }
@@ -113,31 +113,26 @@ function password(password) {
   return false;
 }
 
-function signIn(result) {
-  postUser(result, "signIn")
-    .then((data) => data.json())
-    .then((data) => {
-      if (data) {
-        warning("Login Successfully!", "success", "#83d61631");
-        setTimeout(() => redirect("chat.html", result.email), 2000);
-      } else {
-        warning("Wrong email or password!", "danger", "#ea060629");
-      }
-    })
-    .catch((err) => console.log(err));
+async function signIn(result) {
+  const id = await postUser(result, "signIn");
+  if (id) {
+    warning("Login Successfully!", "success", "#83d61631");
+    setTimeout(() => redirect("chat.html", id), 2000);
+  } else {
+    warning("Wrong email or password!", "danger", "#ea060629");
+  }
 }
 
-function signUp(result) {
+async function signUp(result) {
   result["color"] = frdBgColor();
-  postUser(result, "user")
-    .then((data) => data.json())
-    .then((data) => {
-      if (data.status === "false") {
-        warning(`${data.msg}`, "danger", "#ea060629");
-        return;
-      }
-      warning(`${data.msg}`, "success", "#83d61675");
-      setTimeout(() => toggleForms(element(".inspired"), "sign-in-form"), 1000);
-    })
-    .catch((err) => console.log(err));
+  const response = await postUser(result, "user");
+  if (response.status) {
+    warning(`${response.msg}`, "success", "#83d61675");
+    setTimeout(
+      () => toggleForms(getElement(".inspired"), "sign-in-form"),
+      1000
+    );
+  } else {
+    warning(`${response.msg}`, "danger", "#ea060629");
+  }
 }

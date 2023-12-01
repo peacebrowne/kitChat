@@ -1,46 +1,60 @@
 /**
- * Removes a class from an html element
- * @param {*} ele
- * @param {*} clas
+ * Removes a classname from an html element
+ * @param {*} element
+ * @param {*} className
  * @returns HTMLElement
  */
-const removeClass = (ele, clas) => {
-  ele.classList.remove(clas);
-  return ele;
-};
+function removeClass(element, className) {
+  if (!element || !element.classList) {
+    return;
+  }
+
+  element.classList.remove(className);
+  return element;
+}
 
 /**
- * @param clas - Class to be added to the specified html element.
+ * @param clas - Classname to be added to the specified html element.
  */
-const addClass = (ele, clas) => ele.classList.add(clas);
+const addClass = (element, className) => element.classList.add(className);
 
 /**
  * @param ele - HTML element
- * @param clas - Class to be added to the specified html element.
+ * @param clas - Classname to be added to the specified html element.
  */
-const toggleClass = (ele, clas) => ele.classList.toggle(clas);
+const toggleClass = (element, className) => element.classList.toggle(className);
 
 /**
  * Query the DOM for specified element and return it.
- * @param {HTMLElement} ele
+ * @param {element} ele
  * @returns {HTMLElement}
  */
-const element = (ele) => document.querySelector(`${ele}`);
+const getElement = (element) => document.querySelector(`${element}`);
 
 /**
  * Return all element that has the specified classname or element name
  * @param {*} ele
  * @returns {HTMLCollection}
  */
-const elementAll = (ele) => document.querySelectorAll(`${ele}`);
+const getElementAll = (element) => document.querySelectorAll(`${element}`);
 
 /**
  * Reset all input element to default value;
- * @param {HTMLCollection} form
+ * @param {formElements} form
  */
-function resetForm(form) {
-  form.forEach((input) => {
-    input.value = "";
+function resetForm(formElements) {
+  formElements.forEach((element) => {
+    if (
+      element.type === "text" ||
+      element.type === "textarea" ||
+      element.type === "password"
+    ) {
+      element.value = "";
+    } else if (element.type === "checkbox" || element.type === "radio") {
+      element.checked = false;
+    } else if (element.type === "select") {
+      element.selectedIndex = 0;
+    }
   });
 }
 
@@ -48,20 +62,16 @@ function resetForm(form) {
  * Generating random colors for user's friends
  */
 function frdBgColor() {
-  let color = "";
-  for (let i = 0; i < 3; i++) {
-    color += Math.floor(Math.random() * 250);
-    if (i === 2) break;
-    color += ",";
-  }
-
-  return `rgb(${color})`;
+  const randomColor = Array.from({ length: 3 }, () =>
+    Math.floor(Math.random() * 256)
+  );
+  return `rgb(${randomColor.join(", ")})`;
 }
 
 /**
  * Redirecting user's to different pages.
  */
-function redirect(page, email) {
+function redirect(page, id) {
   const active = localStorage.getItem("active");
 
   if (active) {
@@ -69,9 +79,9 @@ function redirect(page, email) {
     localStorage.removeItem("account");
   } else {
     localStorage.setItem("active", "true");
-    localStorage.setItem("account", JSON.stringify(email));
+    localStorage.setItem("account", JSON.stringify(id));
   }
 
-  // Checking if user is active
+  // Reload page
   location.replace(page);
 }

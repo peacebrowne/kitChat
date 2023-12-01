@@ -1,10 +1,8 @@
-const userEmail = JSON.parse(localStorage.getItem("account"));
-const user = element(".profile span");
-let FREINDS, MESSAGES, USERINFO;
-const search = element("#search");
-const userSection = element(".user-section");
-let frdEmail;
-let id;
+const USERID = JSON.parse(localStorage.getItem("account"));
+const user = getElement(".profile span");
+const search = getElement("#search");
+const userSection = getElement(".user-section");
+let FRIENDS, MESSAGES, USERINFO, FRDEMAIL, FRDID;
 
 // Validate if user has successfully logged in before accessing chat page-90
 window.addEventListener("load", async () => {
@@ -13,8 +11,8 @@ window.addEventListener("load", async () => {
     if (!active) {
       location.replace("/");
     }
-    FREINDS = await getUser();
-    USERINFO = FREINDS.find((frd) => frd.email === userEmail);
+    FRIENDS = await getUser();
+    USERINFO = FRIENDS.find((frd) => frd.id === USERID);
     SECTIONS["chat"]();
   }
 });
@@ -25,20 +23,22 @@ document.addEventListener("click", (ev) => {
   const targetElClas = Array.from(targetEl.classList);
 
   // TOGGLE USER PROFILE
-  // targetElClas.includes("profile-item")
-  //   ? toggleClass(element(".dropdown-menu"), "show")
-  //   : removeClass(element(".dropdown-menu"), "show");
+  targetElClas.includes("profile-item")
+    ? toggleClass(getElement(".dropdown-menu"), "show")
+    : removeClass(getElement(".dropdown-menu"), "show");
 
   // TOGGLE SIDEBAR NAV
   targetElClas.includes("hambuger")
-    ? toggleClass(element(".sidebar"), "slide-left")
-    : removeClass(element(".sidebar"), "slide-left");
+    ? toggleClass(getElement(".sidebar"), "slide-left")
+    : removeClass(getElement(".sidebar"), "slide-left");
 
   // TOGGLING SECTIONS
-  if (targetElClas.includes("nav-item")) {
-    toggleTabs(targetEl);
-  } else if (targetEl.closest(".nav-item")) {
-    toggleTabs(targetEl.closest(".nav-item"));
+  if (targetElClas.includes("nav-item") || targetEl.closest(".nav-item")) {
+    toggleTabs(
+      targetElClas.includes("nav-item")
+        ? targetEl
+        : targetEl.closest(".nav-item")
+    );
   }
 
   // LOGGING USER OUT
@@ -46,7 +46,7 @@ document.addEventListener("click", (ev) => {
 
   // SEARCHING
   if (targetElClas.includes("search")) {
-    const search = element("#search");
+    const search = getElement("#search");
     search.addEventListener("keyup", searchFriends);
   }
 
@@ -67,7 +67,7 @@ document.addEventListener("click", (ev) => {
  * @param { HTMLElement } tab - Current tab to display
  */
 function toggleTabs(tab) {
-  const currentTab = element(".active-tab");
+  const currentTab = getElement(".active-tab");
   const nextTab = tab;
 
   toggleClass(currentTab, "active-tab");
@@ -89,15 +89,15 @@ function userInitial(name) {
 // OPEN SECTIONS
 const SECTIONS = {
   chat: async () => {
-    FREINDS = await getUser();
-    openSections(FREINDS, "chats");
+    FRIENDS = await getUser();
+    openSections(FRIENDS, "chats");
   },
   friends: async () => {
-    FREINDS = await getUser();
-    openSections(FREINDS.reverse(), "friends");
+    FRIENDS = await getUser();
+    openSections(FRIENDS.reverse(), "friends");
   },
-  previousMessages: async (frd, msg) => {
-    previousMessages(frd, msg);
+  previousMessages: async (msg) => {
+    previousMessages(msg);
   },
   openChat: async (ele) => {
     openChat(ele);
@@ -110,9 +110,11 @@ const SECTIONS = {
  * @returns {void}
  */
 function displayFriends(friends) {
-  const section = element(".tab-section");
+  const sectionElement = document.querySelector(".tab-section");
   friends.forEach((friend) => {
-    const frd = `<div class="chat-content" data-id="${friend.id}">
+    if (friend.id !== USERID) {
+      const friendTemplate = `
+        <div class="chat-content" data-id="${friend.id}">
           <div class="chat-info">
             <span class="chat-initial" style="background-color: ${
               friend.color
@@ -122,16 +124,15 @@ function displayFriends(friends) {
             </span>
             <div class="chat-detail">
               <span class="chat-name">${friend.fullname}</span>
-              <span class="chat-latest-msg"
-                >The quick brown fox jump over .....</span
-              >
+              <span class="chat-latest-msg"></span>
             </div>
           </div>
           <div class="chat-time">
             <span>12:21 pm</span>
           </div>
         </div>`;
-    if (userEmail != friend.email) section.insertAdjacentHTML("beforeend", frd);
+      sectionElement.insertAdjacentHTML("beforeend", friendTemplate);
+    }
   });
 }
 
@@ -141,7 +142,7 @@ function displayFriends(friends) {
  * @param { String } title - Title of the section.
  */
 function openSections(friends, title) {
-  const userSection = element(".user-section");
+  const userSection = getElement(".user-section");
   const section = `<nav class="navbar-top" id="navbarTop">
           <div class="hambuger-menu hambuger">
             <svg
@@ -204,10 +205,10 @@ function openSections(friends, title) {
  * @returns {void}
  */
 async function openChat(frd) {
-  id = frd.dataset.id;
+  FRDID = frd.dataset.id;
 
-  const friend = await getSingleUser(id);
-  frdEmail = friend.email;
+  const friend = await getSingleUser(FRDID);
+  FRDEMAIL = friend.email;
 
   const section = ` <header>
           <svg
@@ -301,40 +302,8 @@ async function openChat(frd) {
           </svg>
         </form>`;
   userSection.innerHTML = section;
-  const messages = await getMessage(frdEmail, userEmail);
-  SECTIONS["previousMessages"](friend, messages);
-}
-
-/**
- * Displaying previous messages between user and friend.
- * @param { String } friend - Active friend
- * @param { Array }  messages - Array of messages
- * @returns {void}
- */
-function previousMessages(friend, messages) {
-  const messagesContainer = element(".messages");
-  messages.forEach((msg) => {
-    messagesContainer.insertAdjacentHTML(
-      "beforeend",
-      msg.from != userEmail
-        ? `
-    <div class="msg received-msg">
-      <div class="msg-bubble">
-        <div class="msg-text">
-          ${msg.message}
-        </div>
-        </div>
-    </div>`
-        : `
-    <div class="msg sent-msg">
-      <div class="msg-bubble">
-        <div class="msg-text">
-          ${msg.message}
-        </div>
-        </div>
-    </div>`
-    );
-  });
+  const messages = await getMessage(FRDID, USERID);
+  SECTIONS["previousMessages"](messages);
 }
 
 /**
@@ -345,7 +314,7 @@ function previousMessages(friend, messages) {
  */
 function searchFriends(ev) {
   const char = ev.target.value.toLocaleLowerCase();
-  const tabSection = element(".tab-section");
+  const tabSection = getElement(".tab-section");
 
   Array.from(tabSection.children).forEach((ele) => {
     const term = ele.querySelector(".chat-name").innerText.toLocaleLowerCase();
@@ -355,55 +324,6 @@ function searchFriends(ev) {
       addClass(ele, "hide");
     }
   });
-}
-
-/**
- * Composing user message and display it.
- * @returns {void}
- */
-function composeMessage() {
-  const date = new Date();
-
-  const fullDate = {
-    year: date.getFullYear(),
-    month: date.getMonth(),
-    day: date.getDay(),
-    hour: date.getHours(),
-    minute: date.getMinutes(),
-    second: date.getSeconds(),
-  };
-
-  const msg = element(".compose-msg");
-  if (msg.value !== "") sentMessage(msg.value, userEmail, frdEmail, fullDate);
-  else return;
-  resetForm([msg]);
-}
-
-function instantMessage(data) {
-  const messagesContainer = element(".messages");
-
-  if (messagesContainer) {
-    messagesContainer.insertAdjacentHTML(
-      "beforeend",
-      data.from != userEmail
-        ? `
-    <div class="msg received-msg">
-      <div class="msg-bubble">
-        <div class="msg-text">
-          ${data.msg}
-        </div>
-        </div>
-    </div>`
-        : `
-    <div class="msg sent-msg">
-      <div class="msg-bubble">
-        <div class="msg-text">
-          ${data.msg}
-        </div>
-        </div>
-    </div>`
-    );
-  }
 }
 
 // GO BACK TO CHAT SECTION

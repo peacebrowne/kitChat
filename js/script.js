@@ -1,41 +1,62 @@
 // const URL = `https://kitchat-api.glitch.me/`;
 const URL = "http://127.0.0.1:8080/";
 
-// SIGN UP
-async function postUser(data, endpoint) {
-  return await fetch(`${URL}${endpoint}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
+async function postUser(data, route) {
+  try {
+    const response = await fetch(`${URL}${route}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to get post user data: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(`Error posting user data ${error}`);
+  }
 }
 
 // get request
-const getUser = async () => {
-  const response = await fetch(`${URL}user`);
-  const data = await response.json();
-  return data;
-};
+async function getUser() {
+  try {
+    const response = await fetch(`${URL}user`);
+    if (!response.ok) {
+      throw new Error(`Failed to get user data: ${response.status}`);
+    }
+    return response.json();
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    return null;
+  }
+}
 
 // get request
 const getSingleUser = async (id) => {
-  const response = await fetch(`${URL}user?id=${id}`);
-  const data = await response.json();
-  return data;
+  try {
+    const response = await fetch(`${URL}user?id=${id}`);
+    if (!response.ok) {
+      throw new Error(`Failed to get user data: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching user data:", err);
+    return null;
+  }
 };
 
 const getMessage = async (from, to) => {
-  const response = await fetch(`${URL}messages?from=${from}&to=${to}`);
-  const data = await response.json();
-  return data;
+  try {
+    const response = await fetch(`${URL}messages?from=${from}&to=${to}`);
+    if (!response.ok) {
+      throw new Error(`Failed to get user messages: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching user data:", err);
+    return null;
+  }
 };
-
-// getSingleUser("d13f0f1c-e80a-47b1-b689-a92e8780e0b1")
-//   .then((data) => console.log(data))
-//   .catch((err) => console.error(err));
-
-// H;*t9UPn&4D-xB!
-
-// Aa1!
