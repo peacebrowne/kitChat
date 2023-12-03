@@ -253,6 +253,19 @@ svg {
   padding: 15px;
   border-radius: 15px;
   background: var(--bs-gray);
+  display: flex;
+  flex-direction: column;
+}
+
+.msg-time {
+  font-size: x-small;
+  text-align: right;
+  margin-top: 0.5rem;
+}
+
+.send-msg {
+  border: none;
+  background-color: var(--bs-white);
 }
 
 .received-msg .msg-info {
@@ -304,6 +317,9 @@ svg {
   overflow-y: scroll;
   padding: 2rem;
   flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
 }
 
 .compose {
@@ -467,7 +483,7 @@ svg {
     right: 2.5rem;
   }
   .search-box:hover input {
-    width: 200px;
+    width: 272px;
     opacity: 1;
   }
 

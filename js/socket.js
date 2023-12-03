@@ -1,4 +1,5 @@
 const socket = io("http://127.0.0.1:8080/");
+let activeAccount;
 
 socket.on("connect", () => socket.emit("user", USERID));
 
@@ -10,6 +11,9 @@ function sendMessage(message, from, to, date) {
 
 socket.on("private message", (data) => instantMessage(data));
 
-socket.on("active", (data) => activeUser(data));
+socket.on("active", (data) => {
+  activeAccount = data;
+  activeUser(activeAccount);
+});
 
 socket.on("disconnectedUser", (data) => disconnectedUser(data));

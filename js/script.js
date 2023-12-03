@@ -10,6 +10,7 @@ async function postUser(data, route) {
       },
       body: JSON.stringify(data),
     });
+
     if (!response.ok) {
       throw new Error(`Failed to get post user data: ${response.status}`);
     }
@@ -26,15 +27,15 @@ async function getUser() {
     if (!response.ok) {
       throw new Error(`Failed to get user data: ${response.status}`);
     }
-    return response.json();
+    return await response.json();
   } catch (error) {
     console.error("Error fetching user data:", error);
-    return null;
+    return;
   }
 }
 
 // get request
-const getSingleUser = async (id) => {
+const latestUserMessages = async (id) => {
   try {
     const response = await fetch(`${URL}user?id=${id}`);
     if (!response.ok) {
@@ -42,8 +43,8 @@ const getSingleUser = async (id) => {
     }
     return await response.json();
   } catch (error) {
-    console.error("Error fetching user data:", err);
-    return null;
+    console.error("Error fetching user data:", error);
+    return;
   }
 };
 
@@ -53,10 +54,9 @@ const getMessage = async (from, to) => {
     if (!response.ok) {
       throw new Error(`Failed to get user messages: ${response.status}`);
     }
-    const data = await response.json();
-    return data;
+    return await response.json();
   } catch (error) {
-    console.error("Error fetching user data:", err);
-    return null;
+    console.error("Error fetching user data:", error);
+    return;
   }
 };

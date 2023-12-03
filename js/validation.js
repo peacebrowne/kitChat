@@ -1,7 +1,7 @@
 /**
  * if the element class name has submit button then it's a form.
  * if form is a login form validate it else if it's a registration form validate also
- * @param {HTML element} ele - Check for class name on element
+ * @param {HTML element} element - Check for class name on element
  * @returns {void}
  *
  */
@@ -37,7 +37,8 @@ function submitForm(element) {
 }
 
 /**
- * Validate any form that is passed. if an input element has an empty value notify the user to insert a value and exit validation
+ * Validate any form that is passed. if an input element has an empty value notify the user to insert a value and exit validation.
+ *
  * @param  {HTML element} form - form input elements pass for validation
  * @returns {object} data - storing the value of each input element
  *
@@ -75,27 +76,29 @@ function formValidation(form, type) {
 
 /**
  * Validating a valid email address, if email address is valid return true else return false
- * @param mail - input elements value pass for validation
- * @returns {boolean} - true / false
  *
+ * @param {String} - User email address to be validated.
+ * @returns {boolean} - true / false
  */
-const validEmail =
-  /^[a-zA-Z0-9.!#$%&'*+/=?^/_`{|}~-]+@[a-z]+(?:\.[a-zA-Z0-9]+)*$/;
-const email = (mail) => (mail.match(validEmail) ? true : false);
-
-const upperCase = /[A-Z]/;
-const lowerCase = /[a-z]/;
-const digitCase = /[0-9]/;
-const symbolCase = /[.!#$%&'*+/=?^/_`{|}~-]/;
+const email = (mail) => {
+  const validEmail =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^/_`{|}~-]+@[a-z]+(?:\.[a-zA-Z0-9]+)*$/;
+  return mail.match(validEmail) ? true : false;
+};
 
 /**
  * Validating a valid password. If password is valid return true else return false.
  * Password should be greater than 4 character and it should include atleast one Upper case letter, Lower case letter, digit and symbol.
- * @param {password} password - user password
+ *
+ * @param {String} password - User password to be validated.
  * @returns {Boolean} - True or False
  */
 
 function password(password) {
+  const upperCase = /[A-Z]/,
+    lowerCase = /[a-z]/,
+    digitCase = /[0-9]/,
+    symbolCase = /[.!#$%&'*+/=?^/_`{|}~-]/;
   let upper, lower, digit, symbol;
 
   if (password.length >= 4) {
@@ -126,7 +129,6 @@ async function signIn(result) {
 async function signUp(data) {
   data["color"] = frdBgColor();
   const response = await postUser(data, "user");
-  console.log(response);
   if (response.status) {
     warning(`${response.msg}`, "success", "#83d61675");
     setTimeout(

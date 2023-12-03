@@ -1,5 +1,3 @@
-const form = getElement("form");
-
 document.addEventListener("click", (event) => {
   event.preventDefault();
   const targetEl = event.target;
@@ -19,20 +17,23 @@ document.addEventListener("click", (event) => {
     submitForm(targetEl);
   }
   if (targetElClas.includes("show-password")) {
-    showHiddenPassword(targetEl, "hide");
+    togglePasswordVisibility(targetEl, "hide");
   }
   if (targetElClas.includes("hide-password")) {
-    showHiddenPassword(targetEl, "show");
+    togglePasswordVisibility(targetEl, "show");
   }
 });
 
 /**
- * Display a form base on user preference. Login or Registration.
- * @param {class} ele - Current password svg element
- * @param {class} clas - Hidden password svg class
+ * Toggles the visibility of the password and visibility icon in a password input field.
+ *
+ * @param {Element} element - The element containing the password input field and the visibility icon.
+ * @param {string} className - The CSS class name used to identify the visibility icon.
  */
-function showHiddenPassword(element, className) {
+function togglePasswordVisibility(element, className) {
   const inputElement = element.closest(".form-group").querySelector("input");
+
+  // Toggle the input type between "password" and "text"
   inputElement.type = inputElement.type === "password" ? "text" : "password";
 
   const visibleSvg = element;
@@ -40,8 +41,8 @@ function showHiddenPassword(element, className) {
     .closest(".form-group")
     .querySelector(`.${className}-password`);
 
-  addClass(visibleSvg, "hide");
-  removeClass(hiddenSvg, "hide");
+  toggleVisibility(visibleSvg);
+  toggleVisibility(hiddenSvg);
 }
 
 const forms = {
@@ -582,19 +583,31 @@ const forms = {
 };
 
 /**
- * Display a form base on user preference. Login or Registration.
- * @param {class} ele - Current form to display
+ * Toggles the visibility of a specific form based on the provided class name.
+ *
+ * @param {string} className - The class name of the form to toggle.
  */
 function toggleForms(className) {
   const form = getElement(`form`);
   form.classList = className;
   form.innerHTML = forms[className];
 }
+
 toggleForms("sign-in-form");
 
+/**
+ * Displays a warning message with the specified content, class name, and background color. The message will be automatically hidden after 10 seconds.
+ *
+ * @param {string} message - The message text to display.
+ * @param {string} className - The CSS class name to apply to the warning message element.
+ * @param {string} backgroundColor - The background color to apply to the warning message container.
+ */
 function warning(message, className, backgroundColor) {
   const warningMessageContainer = getElement(".message");
+
   warningMessageContainer.innerHTML = `<span class="${className}">${message}</span>`;
   warningMessageContainer.style.backgroundColor = backgroundColor;
   removeClass(warningMessageContainer, "hide");
+
+  setTimeout(() => addClass(warningMessageContainer, "hide"), 10000);
 }

@@ -19,17 +19,18 @@ window.addEventListener("load", async () => {
 
 // HANDLES ALL CLICK EVENT ON THE PAGE
 document.addEventListener("click", (ev) => {
+  ev.preventDefault();
   const targetEl = ev.target;
   const targetElClas = Array.from(targetEl.classList);
 
   // TOGGLE USER PROFILE
   targetElClas.includes("profile-item")
-    ? toggleClass(getElement(".dropdown-menu"), "show")
+    ? toggleVisibility(getElement(".dropdown-menu"), "show")
     : removeClass(getElement(".dropdown-menu"), "show");
 
   // TOGGLE SIDEBAR NAV
   targetElClas.includes("hambuger")
-    ? toggleClass(getElement(".sidebar"), "slide-left")
+    ? toggleVisibility(getElement(".sidebar"), "slide-left")
     : removeClass(getElement(".sidebar"), "slide-left");
 
   // TOGGLING SECTIONS
@@ -47,7 +48,8 @@ document.addEventListener("click", (ev) => {
   // SEARCHING
   if (targetElClas.includes("search")) {
     const search = getElement("#search");
-    search.addEventListener("keyup", searchFriends);
+    const searchCategory = targetEl.closest(".search-box").dataset.search;
+    search.addEventListener("keyup", SEARCH[searchCategory]);
   }
 
   // OPEN CHAT
@@ -70,49 +72,51 @@ function toggleTabs(tab) {
   const currentTab = getElement(".active-tab");
   const nextTab = tab;
 
-  toggleClass(currentTab, "active-tab");
-  toggleClass(nextTab, "active-tab");
+  toggleVisibility(currentTab, "active-tab");
+  toggleVisibility(nextTab, "active-tab");
 
   SECTIONS[nextTab.innerText.toLowerCase()]();
   socket.emit("user", USERID);
 }
 
 /**
- * Extracting the first letter of the user first and last name and returning user initial.
- * @param { String } name - User fullname
- * @returns { String }  - User initial
+ * Extracts the first letter of the user's first and last name and returns the user's initials.
+ *
+ * @param {string} name - The user's full name.
+ * @returns {string} - The user's initials.
  */
 function userInitial(name) {
-  const initial = name.split(" ");
-  return `${initial[0][0]}${initial[initial.length - 1][0]}`;
+  const initials = name.split(" ");
+  return initials[0][0] + initials[initials.length - 1][0];
 }
 
-// OPEN SECTIONS
 const SECTIONS = {
   chat: async () => {
-    FRIENDS = await getUser();
-    openSections(FRIENDS, "chats");
+    const friends = await latestUserMessages(USERID);
+    openSections(friends, "Chats");
   },
+
   friends: async () => {
-    FRIENDS = await getUser();
-    openSections(FRIENDS.reverse(), "friends");
+    const friends = await getUser();
+    const reversedFriends = friends.reverse();
+    openSections(reversedFriends, "Friends");
   },
-  previousMessages: async (msg) => {
-    previousMessages(msg);
-  },
-  openChat: async (ele) => {
-    openChat(ele);
-  },
+
+  previousMessages: async (messages) => previousMessages(messages),
+  openChat: async (selectedFriend) => openChat(selectedFriend),
 };
 
 /**
- * Display friends in user chat or friend section.
- * @param { Object } friends - User friend object
+ * Renders the list of friends in the specified section.
+ *
+ * @param {array} friends - An array of objects representing the user's friends.
+ * @param {string} sectionTitle - The title of the section where the friends will be displayed.
  * @returns {void}
  */
-function displayFriends(friends, title) {
+function displayFriends(friends) {
   const sectionElement = document.querySelector(".tab-section");
-  friends.forEach((friend) => {
+
+  for (const friend of friends) {
     if (friend.id !== USERID) {
       const friendTemplate = `
         <div class="chat-content" data-id="${friend.id}">
@@ -121,28 +125,34 @@ function displayFriends(friends, title) {
               friend.color
             }">
               ${userInitial(friend.fullname)}
-              <span class="${title == "chats" ? "chat-status" : ""}"></span>
+              <span class="chat-status"></span>
             </span>
             <div class="chat-detail">
               <span class="chat-name">${friend.fullname}</span>
-              <span class="chat-latest-msg"></span>
+              <span class="chat-latest-msg">${
+                friend.message.message ? friend.message.message : ""
+              }</span>
             </div>
           </div>
           <div class="chat-time">
-            <span>12:21 pm</span>
+            <span>${friend.message.hour ? friend.message.hour + " :" : ""} ${
+        friend.message.minute ? friend.message.minute : ""
+      } </span>
           </div>
         </div>`;
+
       sectionElement.insertAdjacentHTML("beforeend", friendTemplate);
     }
-  });
+  }
 }
 
 /**
- * Open user section between chat and friends section.
- * @param { Array } friends - All user friends
- * @param { String } title - Title of the section.
+ * Opens the specified section and displays the given list of friends.
+ *
+ * @param {Array} friends - An array of objects representing the user's friends.
+ * @param {String} sectionTitle - The title to be displayed at the top of the section.
  */
-function openSections(friends, title) {
+function openSections(friends, sectionTitle) {
   const userSection = getElement(".user-section");
   const section = `<nav class="navbar-top" id="navbarTop">
           <div class="hambuger-menu hambuger">
@@ -158,10 +168,10 @@ function openSections(friends, title) {
           </div>
 
           <div class="section-title">
-            <h2>${title}</h2>
+            <h2>${sectionTitle}</h2>
           </div>
           <div class="search">
-            <div class="search-box">
+            <div class="search-box" data-search="searchFriends">
               <input
                 type="text"
                 placeholder="Search..."
@@ -215,18 +225,18 @@ function openSections(friends, title) {
         <div class="tab-section"></div>`;
 
   userSection.innerHTML = section;
-  displayFriends(friends, title);
+  displayFriends(friends);
 }
 
 /**
- * Open chat section between user and friend.
- * @param { Object }  frd - Current friend object
- * @returns {void}
+ * Opens the chat section between the current user and the specified friend.
+ *
+ * @param {Object} selectedFriend - The object representing the friend with whom to open the chat.
  */
-async function openChat(frd) {
-  FRDID = frd.dataset.id;
+async function openChat(selectedFriend) {
+  FRDID = selectedFriend.dataset.id;
 
-  const friend = FRIENDS.find((frd) => frd.id === FRDID);
+  const friend = FRIENDS.find((selectedFriend) => selectedFriend.id === FRDID);
   FRDEMAIL = friend.email;
 
   const section = ` <header>
@@ -236,10 +246,11 @@ async function openChat(frd) {
             class="back-arrow"
           >
             <path
+             class="back-arrow"
               d="M216.4 163.7c5.1 5 5.1 13.3.1 18.4L155.8 243h231.3c7.1 0 12.9 5.8 12.9 13s-5.8 13-12.9 13H155.8l60.8 60.9c5 5.1 4.9 13.3-.1 18.4-5.1 5-13.2 5-18.3-.1l-82.4-83c-1.1-1.2-2-2.5-2.7-4.1-.7-1.6-1-3.3-1-5 0-3.4 1.3-6.6 3.7-9.1l82.4-83c4.9-5.2 13.1-5.3 18.2-.3z"
             />
           </svg>
-          <div class="section-title">
+          <div class="section-title"data-id="${friend.id}">
             <div class="chat-info">
               <span class="chat-initial" style="background-color: ${
                 friend.color
@@ -256,7 +267,7 @@ async function openChat(frd) {
           <div class="header-calls">
             <!-- SEARCH MESSAGE -->
             <div class="search">
-              <div class="search-box">
+              <div class="search-box" data-search="searchMessages">
                 <input
                   type="text"
                   placeholder="Search..."
@@ -310,41 +321,70 @@ async function openChat(frd) {
                 placeholder="Enter your message..."
               />
           </div>
+          <button class="send-msg">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
             class="send-msg"
           >
             <path
+            class="send-msg"
               d="M435.9 64.9l-367.1 160c-6.5 3.1-6.3 12.4.3 15.3l99.3 56.1c5.9 3.3 13.2 2.6 18.3-1.8l195.8-168.8c1.3-1.1 4.4-3.2 5.6-2 1.3 1.3-.7 4.3-1.8 5.6L216.9 320.1c-4.7 5.3-5.4 13.1-1.6 19.1l64.9 104.1c3.2 6.3 12.3 6.2 15.2-.2L447.2 76c3.3-7.2-4.2-14.5-11.3-11.1z"
             />
           </svg>
+          </button>
         </form>`;
   userSection.innerHTML = section;
   const messages = await getMessage(FRDID, USERID);
   SECTIONS["previousMessages"](messages);
-  activeUser([{ id: FRDID }]);
+
+  activeUser(activeAccount);
 }
 
 /**
- * Searches for a friend in the chat and friends section.
- * if friends is available display it else hide it
- * @param {KeyboardEvent} ev - Keyboard keys
- * @returns {void}
+ * Filters and displays message or friends elements based on the search term entered in the input field.
+ *
+ * @param {KeyboardEvent} key - The keyboard event triggered by the input field.
  */
-function searchFriends(ev) {
-  const char = ev.target.value.toLocaleLowerCase();
-  const tabSection = getElement(".tab-section");
 
-  Array.from(tabSection.children).forEach((ele) => {
-    const term = ele.querySelector(".chat-name").innerText.toLocaleLowerCase();
-    if (term.includes(char)) {
-      removeClass(ele, "hide");
-    } else {
-      addClass(ele, "hide");
+const SEARCH = {
+  searchMessages: (key) => {
+    const searchTerm = key.target.value.toLocaleLowerCase();
+    const messagesContainer = getElement(".messages");
+    const currentMessages = Array.from(messagesContainer.children);
+
+    for (const message of currentMessages) {
+      const messageContent = message
+        .querySelector(".msg-text")
+        .innerText.toLocaleLowerCase();
+      const shouldDisplayMessage = messageContent.includes(searchTerm);
+
+      if (shouldDisplayMessage) {
+        removeClass(message, "hide");
+      } else {
+        addClass(message, "hide");
+      }
     }
-  });
-}
+  },
+  searchFriends: (key) => {
+    const searchTerm = key.target.value.toLocaleLowerCase();
+    const tabSection = getElement(".tab-section");
+    const friendElements = Array.from(tabSection.children);
+
+    for (const element of friendElements) {
+      const friendName = element
+        .querySelector(".chat-name")
+        .textContent.toLocaleLowerCase();
+      const shouldDisplayFriend = friendName.includes(searchTerm);
+
+      if (shouldDisplayFriend) {
+        removeClass(element, "hide");
+      } else {
+        addClass(element, "hide");
+      }
+    }
+  },
+};
 
 // GO BACK TO CHAT SECTION
 const backArrow = () => {
