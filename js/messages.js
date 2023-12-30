@@ -87,7 +87,6 @@ function instantMessage(currentMessage) {
 
   let messageTemplate;
   const time = `${currentMessage.datetime.time.hour}:${currentMessage.datetime.time.minute}`;
-  const messageClass = ``;
 
   if (currentMessage.from === USERID) {
     messageTemplate = `<div class="msg sent-msg">
