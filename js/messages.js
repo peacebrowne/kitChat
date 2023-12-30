@@ -6,27 +6,21 @@
 function previousMessages(messages) {
   const messagesContainer = getElement(".messages");
   const messageTemplate = (currentMessage) =>
-    currentMessage.from !== USERID
-      ? `<div class="msg received-msg">
+    `<div class="msg ${
+      currentMessage.from === USERID ? "sent-msg" : "received-msg"
+    } ">
             <div class="msg-bubble">
               <div class="msg-text">
                 ${currentMessage.message}
               </div>
               <span class="msg-time"> 
-                ${currentMessage.datetime.time.hour}: ${currentMessage.datetime.time.minute} 
-              </span>
-            </div>
-          </div>`
-      : `<div class="msg sent-msg">
-            <div class="msg-bubble">
-              <div class="msg-text">
-                ${currentMessage.message}
-              </div>
-              <span class="msg-time">
-                ${currentMessage.datetime.time.hour}: ${currentMessage.datetime.time.minute} 
+                ${currentMessage.datetime.time.hour}: ${
+      currentMessage.datetime.time.minute
+    } 
               </span>
             </div>
           </div>`;
+
   messages.forEach((message) =>
     messagesContainer.insertAdjacentHTML("beforeend", messageTemplate(message))
   );
