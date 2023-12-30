@@ -129,7 +129,7 @@ const forms = {
                 />
               </svg>
 
-              <input
+              <input autofocus
                 class="email"
                 type="email"
                 name="email"
@@ -323,6 +323,7 @@ const forms = {
               </svg>
 
               <input
+                autofocus
                 class="fullname"
                 type="text"
                 name="fullname"
@@ -569,6 +570,7 @@ const forms = {
                 />
               </svg>
               <input
+                autofocus
                 class="email"
                 type="email"
                 name="email"
@@ -608,6 +610,4 @@ function warning(message, className, backgroundColor) {
   warningMessageContainer.innerHTML = `<span class="${className}">${message}</span>`;
   warningMessageContainer.style.backgroundColor = backgroundColor;
   removeClass(warningMessageContainer, "hide");
-
-  setTimeout(() => addClass(warningMessageContainer, "hide"), 10000);
 }

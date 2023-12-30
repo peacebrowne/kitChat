@@ -42,6 +42,13 @@ document.addEventListener("click", (ev) => {
     );
   }
 
+  // TOGGLING VIDEO CALL
+  if (targetElClas.includes("video") || targetEl.closest(".video")) {
+    console.log(targetEl.closest(".video"));
+    removeClass(getElement(".video-call-section"), "hide");
+    invite();
+  }
+
   // LOGGING USER OUT
   if (targetElClas.includes("logout")) logOut(targetElClas);
 
@@ -130,13 +137,19 @@ function displayFriends(friends) {
             <div class="chat-detail">
               <span class="chat-name">${friend.fullname}</span>
               <span class="chat-latest-msg">${
-                friend.message.message ? friend.message.message : ""
+                friend.latestMessage.message ? friend.latestMessage.message : ""
               }</span>
             </div>
           </div>
           <div class="chat-time">
-            <span>${friend.message.hour ? friend.message.hour + " :" : ""} ${
-        friend.message.minute ? friend.message.minute : ""
+            <span>${
+              friend.latestMessage.datetime.time.hour
+                ? friend.latestMessage.datetime.time.hour + " :"
+                : ""
+            } ${
+        friend.latestMessage.datetime.time.minute
+          ? friend.latestMessage.datetime.time.minute
+          : ""
       } </span>
           </div>
         </div>`;
@@ -235,6 +248,8 @@ function openSections(friends, sectionTitle) {
  */
 async function openChat(selectedFriend) {
   FRDID = selectedFriend.dataset.id;
+  console.log({ FRDID });
+  console.log({ USERID });
 
   const friend = FRIENDS.find((selectedFriend) => selectedFriend.id === FRDID);
   FRDEMAIL = friend.email;
@@ -315,6 +330,7 @@ async function openChat(selectedFriend) {
         <form class="compose">
           <div class="form-group">
               <input
+                autofocus
                 class="compose-msg"
                 type="text"
                 name="msg"
@@ -336,7 +352,7 @@ async function openChat(selectedFriend) {
         </form>`;
   userSection.innerHTML = section;
   const messages = await getMessage(FRDID, USERID);
-  SECTIONS["previousMessages"](messages);
+  SECTIONS["previousMessages"](messages.reverse());
 
   activeUser(activeAccount);
 }

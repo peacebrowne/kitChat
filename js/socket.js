@@ -3,8 +3,9 @@ let activeAccount;
 
 socket.on("connect", () => socket.emit("user", USERID));
 
-function sendMessage(message, from, to, date) {
-  const data = { message, from, to, date };
+function sendMessage(message, from, to, datetime) {
+  const data = { message, from, to };
+  data["datetime"] = datetime;
   socket.emit("private message", data);
   instantMessage(data);
 }

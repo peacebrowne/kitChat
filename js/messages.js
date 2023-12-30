@@ -5,24 +5,28 @@
  */
 function previousMessages(messages) {
   const messagesContainer = getElement(".messages");
-  const messageTemplate = (message) =>
-    message.from !== USERID
+  const messageTemplate = (currentMessage) =>
+    currentMessage.from !== USERID
       ? `<div class="msg received-msg">
-          <div class="msg-bubble">
-            <div class="msg-text">
-              ${message.message}
+            <div class="msg-bubble">
+              <div class="msg-text">
+                ${currentMessage.message}
               </div>
-              <span class="msg-time"> ${message.hour}: ${message.minute}</span>
+              <span class="msg-time"> 
+                ${currentMessage.datetime.time.hour}: ${currentMessage.datetime.time.minute} 
+              </span>
             </div>
           </div>`
       : `<div class="msg sent-msg">
-          <div class="msg-bubble">
-            <div class="msg-text">
-              ${message.message}
+            <div class="msg-bubble">
+              <div class="msg-text">
+                ${currentMessage.message}
+              </div>
+              <span class="msg-time">
+                ${currentMessage.datetime.time.hour}: ${currentMessage.datetime.time.minute} 
+              </span>
             </div>
-            <span class="msg-time"> ${message.hour}: ${message.minute}</span>
-          </div>
-        </div>`;
+          </div>`;
   messages.forEach((message) =>
     messagesContainer.insertAdjacentHTML("beforeend", messageTemplate(message))
   );
@@ -41,53 +45,35 @@ function composeMessage() {
   }
 
   const date = new Date();
-  const fullDate = {
-    year: date.getFullYear(),
-    month: date.getMonth(),
-    day: date.getDate(),
-    hour: date.getHours(),
-    minute: date.getMinutes(),
-    second: date.getSeconds(),
+  const datetime = {
+    date: {
+      year: date.getFullYear(),
+      month: date.getMonth(),
+      day: date.getDate(),
+    },
+    time: {
+      hour: date.getHours(),
+      minute: date.getMinutes(),
+      second: date.getSeconds(),
+    },
   };
 
-  sendMessage(messageContent, USERID, FRDID, fullDate);
+  sendMessage(messageContent, USERID, FRDID, datetime);
   resetForm([messageInput]);
 }
 
 /**
  * Display instant messages between user and specified friend.
  *
- * @param {Object} currentMessage - A message object representing the currnet message.
+ * @param { Object } currentMessage - A message object representing the currnet message.
  */
-
 function instantMessage(currentMessage) {
-  const messagesContainer = getElement(".messages");
-  if (messagesContainer) {
-    const messageTemplate =
-      currentMessage.from !== USERID
-        ? `<div class="msg received-msg">
-            <div class="msg-bubble">
-              <div class="msg-text">
-                ${currentMessage.message}
-              </div>
-              <span class="msg-time"> 
-                ${currentMessage.date.hour}: ${currentMessage.date.minute} 
-              </span>
-            </div>
-          </div>`
-        : `<div class="msg sent-msg">
-            <div class="msg-bubble">
-              <div class="msg-text">
-                ${currentMessage.message}
-              </div>
-              <span class="msg-time">
-                ${currentMessage.date.hour}: ${currentMessage.date.minute} 
-              </span>
-            </div>
-          </div>`;
-    messagesContainer.insertAdjacentHTML("beforeend", messageTemplate);
-  } else {
-    const friendZone = getElement(".tab-section");
+  const messagesContainer = document.querySelector(".messages");
+
+  if (!messagesContainer) {
+    const friendZone = document.querySelector(".tab-section");
+    if (!friendZone) return;
+
     const friend = FRIENDS.find((friend) => friend.id === currentMessage.from);
     const friendElement = Array.from(friendZone.children).find(
       (element) => element.dataset.id === friend.id
@@ -96,15 +82,46 @@ function instantMessage(currentMessage) {
       friendElement.querySelector(".chat-latest-msg");
     latestMessageElement.innerText = currentMessage.message;
     friendZone.insertBefore(friendElement, friendZone.firstChild);
+    return;
+  }
+
+  let messageTemplate;
+  const time = `${currentMessage.datetime.time.hour}:${currentMessage.datetime.time.minute}`;
+  const messageClass = ``;
+
+  if (currentMessage.from === USERID) {
+    messageTemplate = `<div class="msg sent-msg">
+      <div class="msg-bubble">
+        <div class="msg-text">${currentMessage.message}</div>
+        <span class="msg-time">${time}</span>
+      </div>
+    </div>`;
+    messagesContainer.insertAdjacentHTML("beforeend", messageTemplate);
+  } else if (currentMessage.from === FRDID) {
+    messageTemplate = `<div class="msg received-msg">
+      <div class="msg-bubble">
+        <div class="msg-text">${currentMessage.message}</div>
+        <span class="msg-time">${time}</span>
+      </div>
+    </div>`;
+    messagesContainer.insertAdjacentHTML("beforeend", messageTemplate);
   }
 }
 
+/**
+ * Validate and display all active users on each.
+ *
+ * @param {Array} data - Array of objects with active users.
+ */
 const activeUser = (data) => {
+  if (!data) return;
+
   setTimeout(() => {
     const friendZone = getElement(".current-section");
     const friendsList = [];
 
     const filteredData = data.filter((user) => user.id !== USERID);
+
     filteredData.forEach((user) => {
       FRIENDS.forEach((friend) => {
         if (friend.id === user.id) {

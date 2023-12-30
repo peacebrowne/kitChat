@@ -1,7 +1,7 @@
 // const URL = `https://kitchat-api.glitch.me/`;
 const URL = "http://127.0.0.1:8080/";
 
-async function postUser(data, route) {
+const postUser = async (data, route) => {
   try {
     const response = await fetch(`${URL}${route}`, {
       method: "POST",
@@ -18,10 +18,10 @@ async function postUser(data, route) {
   } catch (error) {
     console.error(`Error posting user data ${error}`);
   }
-}
+};
 
-// get request
-async function getUser() {
+// get all users
+const getUser = async () => {
   try {
     const response = await fetch(`${URL}user`);
     if (!response.ok) {
@@ -32,9 +32,9 @@ async function getUser() {
     console.error("Error fetching user data:", error);
     return;
   }
-}
+};
 
-// get request
+// get latest messages
 const latestUserMessages = async (id) => {
   try {
     const response = await fetch(`${URL}user?id=${id}`);
@@ -43,7 +43,7 @@ const latestUserMessages = async (id) => {
     }
     return await response.json();
   } catch (error) {
-    console.error("Error fetching user data:", error);
+    console.error("Error fetching user latest message:", error);
     return;
   }
 };
@@ -56,7 +56,7 @@ const getMessage = async (from, to) => {
     }
     return await response.json();
   } catch (error) {
-    console.error("Error fetching user data:", error);
+    console.error("Error fetching user messages:", error);
     return;
   }
 };

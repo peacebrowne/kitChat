@@ -1,8 +1,7 @@
 /**
- * if the element class name has submit button then it's a form.
- * if form is a login form validate it else if it's a registration form validate also
- * @param {HTML element} element - Check for class name on element
- * @returns {void}
+ * Submitting different types of form to the server.
+ *
+ * @param {HTML element} element - Element is a form submit button
  *
  */
 
@@ -39,8 +38,8 @@ function submitForm(element) {
 /**
  * Validate any form that is passed. if an input element has an empty value notify the user to insert a value and exit validation.
  *
- * @param  {HTML element} form - form input elements pass for validation
- * @returns {object} data - storing the value of each input element
+ * @param  {HTML element} form - From input elements pass for validation.
+ * @returns {String} type - Type of class to validate.
  *
  */
 function formValidation(form, type) {
@@ -118,6 +117,7 @@ function password(password) {
 
 async function signIn(result) {
   const id = await postUser(result, "signIn");
+  console.log({ id });
   if (id) {
     warning("Login Successfully!", "success", "#83d61631");
     setTimeout(() => redirect("chat.html", id), 2000);
@@ -131,10 +131,7 @@ async function signUp(data) {
   const response = await postUser(data, "user");
   if (response.status) {
     warning(`${response.msg}`, "success", "#83d61675");
-    setTimeout(
-      () => toggleForms(getElement(".inspired"), "sign-in-form"),
-      1000
-    );
+    setTimeout(() => toggleForms("sign-in-form"), 1000);
   } else {
     warning(`${response.msg}`, "danger", "#ea060629");
   }
